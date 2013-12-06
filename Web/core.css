@@ -1,0 +1,59 @@
+/* --- Default --- */
+*{/*-webkit-touch-callout: none; -webkit-user-select: none; brought back by request*/ text-shadow: none !important;}
+body {margin: 0; padding: 0;}
+.ui-page {width: 100%; min-height: 100%; position: absolute; top: 0; left: 0; text-align: justify; color: #1d1d1d; -webkit-text-size-adjust: none; -webkit-backface-visibility: hidden; background: #f9f8f8; font: normal 16px/1.8em 'Marion-Regular', Georgia, serif; word-wrap: break-word; outline: none;}
+.ui-content {padding: 20px 14px 14px; -webkit-transform: translate3d(0,0,0);}
+.hasExercise .ui-content {padding-top: 60px;}
+h1, h2, h3, h4, h5, h6 {text-align: left; font-family: 'HelveticaNeue-Light', sans-serif; color: #333;}
+h1 {font-size: 1.8em; line-height: 1.2em; color: #c44032; border-bottom: 1px dotted #ccc;}
+h2 {margin-top: 1em; padding-top: 1em; clear: both; font-size: 1.4em; border-top: 1px dotted #ccc;}
+h1 + h2, h2#part1 {margin-top: 0; padding-top: 0; border: none;}
+h3 {margin-top: 2em; clear: both;}
+a {color: #c44032; font-weight: bold;}
+a:hover {color: #2489CE;}
+a.kana {color: #5da028; font-weight: normal;}
+caption {padding: 5px; background: #c44032; color: #fff; font-size: smaller; font-family: HelveticaNeue, sans-serif; font-weight: bold; text-shadow: none; margin: 10px 0;}
+table {width: 100%; margin-bottom: 20px; clear:both; table-layout: fixed; word-wrap: break-word; font-size: smaller;}
+table, td {border: 1px solid #eee; background: #fff; border-collapse: collapse; padding: 0; color: #1d1d1d;}
+em {font-weight: bold; color: #d26d00; padding-right: 2px;}
+
+.flourish {text-align: center; font: normal 20px 'BodoniOrnamentsITCTT'; color: #ddd;}
+.video {display: block; clear: both; margin: 0 auto; text-align: center;}
+
+.sumbox {margin: 15px 0; padding: 15px 20px 10px; background: #fefefe; border: 1px solid #eee; color: #555; font-size: smaller; font-family: HelveticaNeue, sans-serif; line-height: 1.6em;}
+.sumbox ul, .sumbox ol {padding-left: 20px; margin-left: 0;}
+
+.popup {color: #060; border-bottom: 1px dotted #060; text-decoration: none;}
+caption .popup {color: #fff; border-bottom-color: #fff;}
+.summary {width: 100%; padding-bottom: 5px; display: block; text-align: left; font-size: 1.4em; color: #555; text-align: left; font-family: 'HelveticaNeue-Light', sans-serif; text-shadow: none; border-bottom: 1px dotted #ccc;}
+
+#ljappsyllabary, #clip, #clip_inline {display: none;}
+#exercisemessage {width: 100%; height: 45px; padding: 0 0 19px; position: absolute; top: 0; left: 0; background: url(Images/bg_alert.png); color: #fff; font: bold 16px/45px HelveticaNeue, sans-serif; text-align: center; text-shadow: none;}
+#exercisemessage img {position: relative; bottom: -4px;}
+#playingdialog {width: 200px; height: 50px; font-family: HelveticaNeue, sans-serif; line-height: 50px; text-align: center; color: #fff; text-shadow: none; background: #000; position: fixed; z-index: 1000; top: 50%; left: 50%; margin: -25px 0 0 -100px; border-radius: 5px;}
+
+.hide {color: rgba(0,0,0,0);}
+.toggle {color: rgba(0,0,0,0); border-bottom: 1px dotted #d26d00;}
+.toggle.active {color: rgba(210,109,0,1);}
+.answerline .hide {}
+td.hide {}
+td.hide .answerline {color: rgba(0,0,0,0);}
+td.show .answerline {}
+.showanswers .hide {color: rgba(210,109,0,1);}
+
+.aligncenter, .aligncenter tr, .aligncenter td {text-align: center !important;}
+
+iframe {display: none;}
+.iphone img {max-width: 290px;}
+
+/* --- Dark --- */
+.dark .ui-page {background: #1d1d1d; color: #f4f1de;}
+.dark h1 {border-bottom-color: #333;}
+.dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {color: #bebcad;}
+.dark a.kana {color:#ac2207; font-weight: bold;}
+.dark table, .dark td {border-color: #333; color: #f4f1de; background: #0b0b0b;}
+.dark .flourish {color: #333;}
+.dark .sumbox {background: #0b0b0b; border-color: #333; color: #eee;}
+.dark .popup {color: #9c0; border-bottom-color: #9c0;}
+.dark caption .popup {color: #fff; border-bottom-color: #fff;}
+.dark .summary {color: #eee; border-bottom-color: #333;}

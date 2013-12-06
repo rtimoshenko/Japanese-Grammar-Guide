@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>109094C4-0A32-4422-BF38-D5E40C5F4A34</string>
+	<key>IDESourceControlProjectName</key>
+	<string>LearningJapanese</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>8835C8C0-F149-42A1-84AA-F68EA5835D74</key>
+		<string>https://github.com/rtimoshenko/Japanese-Grammar-Guide.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>LearningJapanese.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>8835C8C0-F149-42A1-84AA-F68EA5835D74</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/rtimoshenko/Japanese-Grammar-Guide.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>8835C8C0-F149-42A1-84AA-F68EA5835D74</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8835C8C0-F149-42A1-84AA-F68EA5835D74</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Japanese Grammar Guide</string>
+		</dict>
+	</array>
+</dict>
+</plist>
