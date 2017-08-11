@@ -22,13 +22,13 @@
 -(void)didShowOptionsView:(id)sender didShow:(BOOL)didShow;
 -(void)didHideOptionsView:(id)sender didHide:(BOOL)didHide;
 -(void)shouldUseNightMode:(id)sender useNightMode:(BOOL)nightMode;
--(void)doChangeFontSize:(id)sender changeTo:(int)fontSize;
+-(void)doChangeFontSize:(id)sender changeTo:(NSInteger)fontSize;
 -(void)doSaveBookmark:(id)sender;
 -(void)doLoadNext:(id)sender;
 -(void)doLoadPrevious:(id)sender;
 @end
 
-@interface OptionsView : UIView
+@interface OptionsView : UIView <CAAnimationDelegate>
 
 @property (nonatomic, strong) NSTimer *timer;
 @property (unsafe_unretained, nonatomic) IBOutlet UIView *extraOptionsView;
@@ -57,7 +57,7 @@
 @property (nonatomic) BOOL hasBookmark;
 @property (nonatomic) BOOL isNightMode;
 @property (nonatomic) BOOL shouldIgnoreHideMessage;
-@property (nonatomic) int fontSize;
+@property (nonatomic) NSInteger fontSize;
 @property (nonatomic) double brightness;
 
 -(void)show;
@@ -65,6 +65,6 @@
 -(void)hideWithDelegate:(BOOL)withDelegate;
 -(void)showWithDelegate:(BOOL)withDelegate;
 -(void)shouldUseNightMode:(BOOL)nightMode;
--(void)doChangeFontSize:(int)fontSize;
+-(void)doChangeFontSize:(NSInteger)fontSize;
 
 @end

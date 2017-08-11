@@ -10,10 +10,10 @@
 
 @interface Chapter : NSObject
 
-@property (nonatomic) int chapterNumber;
+@property (nonatomic) NSInteger chapterNumber;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSArray *lessons;
 
--(id)initWithChapterNumber:(int)chapterNumber;
+-(id)initWithChapterNumber:(NSInteger)chapterNumber;
 
 @end

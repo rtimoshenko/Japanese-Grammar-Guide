@@ -149,8 +149,8 @@
 -(Lesson *)loadNextLessonAndSaveIndexPath:(BOOL)shouldSave
 {
     Lesson *lesson = nil;
-    int section = self.cameFromIndexPath.section;
-    int row = self.cameFromIndexPath.row;
+    NSInteger section = self.cameFromIndexPath.section;
+    NSInteger row = self.cameFromIndexPath.row;
     NSIndexPath *nextPath = nil;
     
     
@@ -180,8 +180,8 @@
 -(Lesson *)loadPreviousLessonAndSaveIndexPath:(BOOL)shouldSave
 {
     Lesson *lesson = nil;
-    int section = self.cameFromIndexPath.section;
-    int row = self.cameFromIndexPath.row;
+    NSInteger section = self.cameFromIndexPath.section;
+    NSInteger row = self.cameFromIndexPath.row;
     NSIndexPath *previousPath = nil;
     
     if (section < 1 && row < 1)
@@ -235,7 +235,7 @@
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    int chapterCount = self.chapters.count;
+    NSInteger chapterCount = self.chapters.count;
     
     if (self.isSearching)
         chapterCount = self.foundChapters.count;
@@ -310,7 +310,7 @@
     
     
 	Lesson *lesson = [chapter.lessons objectAtIndex:indexPath.row];
-    int lessonDisplayNumber = lesson.lessonIndexPath.row;
+    NSInteger lessonDisplayNumber = lesson.lessonIndexPath.row;
     NSString *cellTitle = @"";
     
 
@@ -328,7 +328,7 @@
 	}
 	else 
     {
-		cellTitle = [[NSString alloc] initWithFormat:@"Lesson %d", lessonDisplayNumber];
+        cellTitle = [[NSString alloc] initWithFormat:@"Lesson %ld", (long)lessonDisplayNumber];
 
         // Determine the appropriate icon to use
 		if ([self lessonNumberIsBookmarked:lesson.lessonNumber])
@@ -388,9 +388,9 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section 
 {
-    int width = 480;//self.tableView.frame.size.width;
-    int inset = 28;
-    int height = 22;
+    NSInteger width = 480;//self.tableView.frame.size.width;
+    NSInteger inset = 28;
+    NSInteger height = 22;
     
     NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
     
@@ -742,7 +742,7 @@
     self.foundChapters = chapterResults;
 }
 
--(BOOL)lessonNumberIsBookmarked:(int)lessonNumber
+-(BOOL)lessonNumberIsBookmarked:(NSInteger)lessonNumber
 {
 	BOOL hasBookmark = NO;
 

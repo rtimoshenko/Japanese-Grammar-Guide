@@ -14,7 +14,7 @@
 @synthesize title = _title;
 @synthesize lessons = _lessons;
 
--(id)initWithChapterNumber:(int)chapterNumber
+-(id)initWithChapterNumber:(NSInteger)chapterNumber
 {
 	if (self = [self init])
     {

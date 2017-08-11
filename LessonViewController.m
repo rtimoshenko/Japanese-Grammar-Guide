@@ -21,7 +21,7 @@
 @property (nonatomic) BOOL isLoadingPrevious;
 @property (nonatomic) BOOL shouldIgnoreShowMessage;
 @property (nonatomic) BOOL hasLoadedRootWebView;
-@property (nonatomic) int lastContentOffset;
+@property (nonatomic) NSInteger lastContentOffset;
 @property (nonatomic, strong) AVAudioPlayer *kanaPlayer;
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSURLRequest *storedRequest;
@@ -137,9 +137,9 @@
         [self.chapterView reloadAsNightTheme:nightMode];
 }
 
--(void)doChangeFontSize:(id)sender changeTo:(int)fontSize;
+-(void)doChangeFontSize:(id)sender changeTo:(NSInteger)fontSize;
 {
-	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"setFontSize(%d);", fontSize]];
+    [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"setFontSize(%ld);", (long)fontSize]];
 }
 
 -(void)doSaveBookmark:(id)sender
@@ -360,7 +360,7 @@
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL useNightMode = [defaults boolForKey:NIGHT_MODE_KEY];
-    int fontSize = [defaults integerForKey:FONT_SIZE_KEY];
+    NSInteger fontSize = [defaults integerForKey:FONT_SIZE_KEY];
     NSString *isIpad = @"false";
         
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
@@ -426,8 +426,8 @@
     if ((self.lesson.lessonIndexPath.section != lesson.lessonIndexPath.section) || 
         (self.lesson.lessonIndexPath.row != lesson.lessonIndexPath.row))   
     {
-        int currentPathValue = self.lesson.lessonIndexPath.section + self.lesson.lessonIndexPath.row;
-        int newPathValue = lesson.lessonIndexPath.section + lesson.lessonIndexPath.row;
+        NSInteger currentPathValue = self.lesson.lessonIndexPath.section + self.lesson.lessonIndexPath.row;
+        NSInteger newPathValue = lesson.lessonIndexPath.section + lesson.lessonIndexPath.row;
         
         self.isLoadingPrevious = (newPathValue < currentPathValue);
         
@@ -674,8 +674,8 @@
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             
             // Get associated lesson data
-            int chapterNumber = [defaults integerForKey:SAVED_CHAPTER_KEY];
-            int lessonNumber = [defaults integerForKey:SAVED_LESSON_KEY];
+            NSInteger chapterNumber = [defaults integerForKey:SAVED_CHAPTER_KEY];
+            NSInteger lessonNumber = [defaults integerForKey:SAVED_LESSON_KEY];
             
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lessonNumber inSection:chapterNumber];
             

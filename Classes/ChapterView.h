@@ -10,12 +10,11 @@
 #import <UIKit/UIKit.h>
 #import "AbstractViewController.h"
 
-typedef enum 
-{
-	kLessons,
-	kBookmarks,
-    kSearch
-} DisplayType;
+typedef NS_ENUM(NSInteger, DisplayType) {
+    kLessons,
+    kBookmarks,
+    kSearch,
+};
 
 @class Lesson;
 
@@ -27,7 +26,7 @@ typedef enum
 -(void)didDeleteBookmark:(id)sender;
 @end
 
-@interface ChapterView : UIView <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate, UIScrollViewDelegate>
+@interface ChapterView : UIView <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate, UIScrollViewDelegate, CAAnimationDelegate>
 
 @property (unsafe_unretained, nonatomic) IBOutlet UIView *searchOverlayView;
 @property (unsafe_unretained, nonatomic) IBOutlet UIToolbar *filterToolbar;
@@ -55,7 +54,7 @@ typedef enum
 -(void)didHideChapterView:(BOOL)didHide;
 -(BOOL)hasNextLesson;
 -(BOOL)hasPreviousLesson;
--(BOOL)lessonNumberIsBookmarked:(int)lessonNumber;
+-(BOOL)lessonNumberIsBookmarked:(NSInteger)lessonNumber;
 -(Lesson *)loadNextLessonAndSaveIndexPath:(BOOL)shouldSave;
 -(Lesson *)loadPreviousLessonAndSaveIndexPath:(BOOL)shouldSave;
 -(Lesson *)lessonWithIndexPath:(NSIndexPath *)indexPath;

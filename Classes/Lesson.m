@@ -22,7 +22,7 @@
 @synthesize updatedDate = _updatedDate;
 @synthesize exercise = _exercise;
 
--(id)initWithLessonNumber:(int)lessonNumber parentNumber:(int)parentNumber
+-(id)initWithLessonNumber:(NSInteger)lessonNumber parentNumber:(NSInteger)parentNumber
 {
 	if (self = [self init]) 
 	{
