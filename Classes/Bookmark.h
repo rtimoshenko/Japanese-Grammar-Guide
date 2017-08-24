@@ -12,8 +12,8 @@
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *subtitle;
-@property (nonatomic) int bookmarkNumber;
-@property (nonatomic) int lessonNumber;
-@property (nonatomic) int sortOrder;
+@property (nonatomic) NSInteger bookmarkNumber;
+@property (nonatomic) NSInteger lessonNumber;
+@property (nonatomic) NSInteger sortOrder;
 
 @end

@@ -18,14 +18,14 @@
 @property (nonatomic, strong) NSArray *lessons;
 @property (nonatomic, strong) NSArray *exercises;
 
--(Lesson *)lessonWithId:(int)lessonNumber;
+-(Lesson *)lessonWithId:(NSInteger)lessonNumber;
 -(Lesson *)lessonWithIndexPath:(NSIndexPath *)indexPath;
--(NSString *)sectionTitle:(int)lessonNumber;
--(Lesson *)nextLesson:(int)currentLessonNumber;
--(Lesson *)previousLesson:(int)currentLessonNumber;
--(Lesson *)exerciseForLesson:(int)lessonNumber;
+-(NSString *)sectionTitle:(NSInteger)lessonNumber;
+-(Lesson *)nextLesson:(NSInteger)currentLessonNumber;
+-(Lesson *)previousLesson:(NSInteger)currentLessonNumber;
+-(Lesson *)exerciseForLesson:(NSInteger)lessonNumber;
 -(NSArray *)lessonsWithBookmarks:(BookmarkRepository *)bookmarkRepository;
--(BOOL)hasNextLesson:(int)currentLessonNumber;
--(BOOL)hasPreviousLesson:(int)currentLessonNumber;
+-(BOOL)hasNextLesson:(NSInteger)currentLessonNumber;
+-(BOOL)hasPreviousLesson:(NSInteger)currentLessonNumber;
 
 @end

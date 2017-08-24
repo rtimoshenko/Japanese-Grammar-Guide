@@ -285,7 +285,7 @@
 
 -(IBAction)fontIncreaseSelected:(id)sender
 {
-    int newSize = self.fontSize + 1;
+    NSInteger newSize = self.fontSize + 1;
     
     if (newSize > MAX_FONT_SIZE)
         newSize = MAX_FONT_SIZE;
@@ -297,7 +297,7 @@
 
 -(IBAction)fontDecreaseSelected:(id)sender
 {
-    int newSize = self.fontSize - 1;
+    NSInteger newSize = self.fontSize - 1;
     
     if (newSize < MIN_FONT_SIZE)
         newSize = MIN_FONT_SIZE;
@@ -321,7 +321,7 @@
 	[self.delegate shouldUseNightMode:self useNightMode:nightMode];
 }
 
--(void)doChangeFontSize:(int)fontSize
+-(void)doChangeFontSize:(NSInteger)fontSize
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
