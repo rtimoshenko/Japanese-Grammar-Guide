@@ -103,7 +103,7 @@
 	@catch (NSException * e) {} // swallow exceptions
 }
 
--(Lesson *)lessonWithId:(int)lessonNumber
+-(Lesson *)lessonWithId:(NSInteger)lessonNumber
 {
 	Lesson *lesson = nil;
     
@@ -129,7 +129,7 @@
     return lesson;
 }
 
--(Lesson *)exerciseForLesson:(int)lessonNumber
+-(Lesson *)exerciseForLesson:(NSInteger)lessonNumber
 {
 	Lesson *exercise = nil;
     
@@ -183,18 +183,18 @@
     return chapters;
 }
 
--(NSString *)sectionTitle:(int)lessonNumber
+-(NSString *)sectionTitle:(NSInteger)lessonNumber
 {
     return [[self lessonWithId:lessonNumber] slug];
 }
 
--(Lesson *)nextLesson:(int)currentLessonNumber
+-(Lesson *)nextLesson:(NSInteger)currentLessonNumber
 {
     Lesson *lesson = [self lessonWithId:currentLessonNumber];
     Lesson *next = nil;
     
-    int lIndex = (int)[self.lessons indexOfObject:lesson];
-    int nextIndex = lIndex + 1;
+    NSInteger lIndex = [self.lessons indexOfObject:lesson];
+    NSInteger nextIndex = lIndex + 1;
     
     // Make sure we don't request an out of bounds object
     if (nextIndex < [self.lessons count])
@@ -203,30 +203,30 @@
     return next;
 }
 
--(Lesson *)previousLesson:(int)currentLessonNumber
+-(Lesson *)previousLesson:(NSInteger)currentLessonNumber
 {
     Lesson *lesson = [self lessonWithId:currentLessonNumber];
     Lesson *next = nil;
     
-    int lIndex = (int)[self.lessons indexOfObject:lesson];
+    NSInteger lIndex = [self.lessons indexOfObject:lesson];
     
     // Make sure we don't request an out of bounds object
     if (lIndex < 1)
         return nil;
     
-    int nextIndex = lIndex - 1;
+    NSInteger nextIndex = lIndex - 1;
     
     next = [self.lessons objectAtIndex:nextIndex];
     
     return next;
 }
 
--(BOOL)hasNextLesson:(int)currentLessonNumber
+-(BOOL)hasNextLesson:(NSInteger)currentLessonNumber
 {
     return ([self nextLesson:currentLessonNumber] != nil);
 }
 
--(BOOL)hasPreviousLesson:(int)currentLessonNumber
+-(BOOL)hasPreviousLesson:(NSInteger)currentLessonNumber
 {
     return ([self previousLesson:currentLessonNumber] != nil);
 }
@@ -248,19 +248,19 @@
 		FMResultSet *rs = [db executeQuery:chapterQuery];
         NSMutableArray *exercises = [NSMutableArray array];
         
-        int i = 0;
+        NSInteger i = 0;
 
         @autoreleasepool {
             while ([rs next])
             {
-                int parentId = [rs intForColumn:@"ParentId"];
-                int contentType = [rs intForColumn:@"ContentType"];
+                NSInteger parentId = [rs intForColumn:@"ParentId"];
+                NSInteger contentType = [rs intForColumn:@"ContentType"];
                 
                 // If the "lesson" doesn't have a parent ID, we can assume that it's a "chapter"
                 if (parentId < 1)
                 {    
                     Chapter *chapter = [self chapterFromResultSet:rs];
-                    FMResultSet *lrs = [db executeQuery:lessonsQuery, [NSString stringWithFormat:@"%d", chapter.chapterNumber]];
+                    FMResultSet *lrs = [db executeQuery:lessonsQuery, [NSString stringWithFormat:@"%ld", (long)chapter.chapterNumber]];
                     NSMutableArray *lessonsTemp = [NSMutableArray array];
                     
                     Lesson *overviewLesson = (Lesson *)[self lessonFromResultSet:rs];
@@ -272,7 +272,7 @@
                     
                     // Add lessons
                     // Since we've already used 0, let's start at 1
-                    int j = 1;
+                    NSInteger j = 1;
                     while ([lrs next])
                     {
                         Lesson *lesson = (Lesson *)[self lessonFromResultSet:lrs];

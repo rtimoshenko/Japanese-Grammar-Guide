@@ -16,9 +16,9 @@ typedef enum
 
 @interface Lesson : NSObject
 
-@property (nonatomic) int lessonNumber;
-@property (nonatomic) int chapterNumber;
-@property (nonatomic) int parentNumber;
+@property (nonatomic) NSInteger lessonNumber;
+@property (nonatomic) NSInteger chapterNumber;
+@property (nonatomic) NSInteger parentNumber;
 @property (nonatomic) ContentType contentType;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *tableHeading;
@@ -28,6 +28,6 @@ typedef enum
 @property (nonatomic, strong) NSIndexPath *lessonIndexPath;
 @property (nonatomic, strong) Lesson *exercise;
 
--(id)initWithLessonNumber:(int)lessonNumber parentNumber:(int)parentNumber;
+-(id)initWithLessonNumber:(NSInteger)lessonNumber parentNumber:(NSInteger)parentNumber;
 
 @end
