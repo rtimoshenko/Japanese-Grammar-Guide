@@ -13,8 +13,8 @@
 @interface ChapterViewController : AbstractViewController <ChapterViewDelegate>
 
 @property (strong, nonatomic) IBOutlet ChapterView *chapterView;
-@property (unsafe_unretained, nonatomic) IBOutlet UIToolbar *filterToolbar;
-@property (unsafe_unretained, nonatomic) IBOutlet UISegmentedControl *filterControl;
+@property (weak, nonatomic) IBOutlet UIToolbar *filterToolbar;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *filterControl;
 
 -(IBAction)didSelectFilter:(id)sender;
 

@@ -14,21 +14,23 @@
 #import "ChapterView.h"
 
 @class Lesson;
+@class ChapterViewDataProvider;
 
 @interface LessonViewController : AbstractViewController <OptionsViewDelegate, ReadingViewDelegate, ChapterViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, CAAnimationDelegate>
 
 
-@property (unsafe_unretained, nonatomic) IBOutlet UIWebView *webView;
-@property (unsafe_unretained, nonatomic) IBOutlet UIButton *showTableButton;
-@property (unsafe_unretained, nonatomic) IBOutlet ReadingView *readingView;
-@property (unsafe_unretained, nonatomic) IBOutlet KanaView *kanaView;
-@property (unsafe_unretained, nonatomic) IBOutlet ChapterView *chapterView;
-@property (unsafe_unretained, nonatomic) IBOutlet OptionsView *optionsView;
-@property (unsafe_unretained, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
-@property (unsafe_unretained, nonatomic) IBOutlet UIToolbar *optionsToolbar;
-@property (unsafe_unretained, nonatomic) IBOutlet UIToolbar *moreOptionsToolbar;
-@property (unsafe_unretained, nonatomic) IBOutlet UIToolbar *filterToolbar;
-@property (unsafe_unretained, nonatomic) IBOutlet UISegmentedControl *filterControl;
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet UIButton *showTableButton;
+@property (weak, nonatomic) IBOutlet ReadingView *readingView;
+@property (weak, nonatomic) IBOutlet KanaView *kanaView;
+@property (weak, nonatomic) IBOutlet ChapterView *chapterView;
+@property (weak, nonatomic) IBOutlet OptionsView *optionsView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
+@property (weak, nonatomic) IBOutlet UIToolbar *optionsToolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *moreOptionsToolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *filterToolbar;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *filterControl;
+@property (nonatomic, strong) ChapterViewDataProvider *dataProvider;
 
 -(IBAction)didSelectFilter:(id)sender;
 -(IBAction)didPressShowTableButton:(id)sender;

@@ -12,7 +12,7 @@
 #import "BookmarkRepository.h"
 #import "Chapter.h"
 #import "Lesson.h"
-
+#import "ChapterViewDataProvider.h"
 
 @interface LessonViewController()
 @property (nonatomic) BOOL navIsVisible;
@@ -26,6 +26,7 @@
 @property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) NSURLRequest *storedRequest;
 @property (copy, nonatomic) NSString *loadedHtml;
+
 
 -(void)loadLesson:(Lesson *)lesson;
 -(void)loadExercise;
@@ -96,9 +97,6 @@
     
     [self.navigationController pushViewController:lessonViewController animated:YES];
     [self showNav];
-    
-//    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-//        [self hideTableView];
 }
 
 #pragma mark - Option Menu View Controller Delegate
@@ -132,6 +130,7 @@
 
     [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"setNightMode(%@);", nightModeString]];
     
+    // TODO: Support night mode on new chapter view controller
 //    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 //        [self.chapterView reloadAsNightTheme:nightMode];
 }
@@ -206,29 +205,7 @@
 -(void)hideNav
 {
     self.navIsVisible = NO;
-    
-    // Don't hide nav for iPad
-    //if([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPad)
-    //{
-        [self.navigationController setNavigationBarHidden:YES animated:YES];
-   // }
-    
-//    // Hide table button
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad &&
-//        !self.isExercise &&
-//        !self.showTableButton.hidden)
-//    {
-//        CATransition *transition = [CATransition animation];
-//
-//        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-//        transition.duration = 0.25;
-//        transition.type = kCATransitionPush;
-//        transition.subtype = kCATransitionFromRight;
-//        transition.delegate = self;
-//
-//        [self.showTableButton.layer addAnimation:transition forKey:nil];
-//        self.showTableButton.hidden = YES;
-//    }
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 -(void)showOptions
@@ -274,27 +251,27 @@
 
 -(void)handleSwipeLeft
 {
-    if (self.hasLoadedRootWebView && self.tableIsVisible && !self.isExercise)
-        [self hideTableView];
-    else if (self.hasLoadedRootWebView && !self.tableIsVisible && !self.isExercise && !self.showTableButton.hidden)
-        [self hideOptionsWithNav];
+//    if (self.hasLoadedRootWebView && self.tableIsVisible && !self.isExercise)
+//        [self hideTableView];
+//    else if (self.hasLoadedRootWebView && !self.tableIsVisible && !self.isExercise && !self.showTableButton.hidden)
+//        [self hideOptionsWithNav];
 }
 
 -(void)handleSwipeRight
 {
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-//    {
-        [self.navigationController popViewControllerAnimated:YES];
-//    }
-//    else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && self.isExercise)
-//    {
+////    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+////    {
 //        [self.navigationController popViewControllerAnimated:YES];
+////    }
+////    else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && self.isExercise)
+////    {
+////        [self.navigationController popViewControllerAnimated:YES];
+////    }
+//    //else
+//        if (self.hasLoadedRootWebView && !self.tableIsVisible && !self.isExercise)
+//    {
+//        [self showTableView];
 //    }
-    //else
-        if (self.hasLoadedRootWebView && !self.tableIsVisible && !self.isExercise)
-    {
-        [self showTableView];
-    }
 }
 
 -(void)didShowOptionsView:(id)sender didShow:(BOOL)didShow
@@ -780,6 +757,7 @@ navigationType:(UIWebViewNavigationType)navigationType
     [super viewDidLoad];
     
     if (self.lesson == nil) {
+        // TODO: Temporary until we re-introduce support for last viewed lesson
         self.lesson = self.lessonRepository.chapters[0].lessons[0];
     }
     

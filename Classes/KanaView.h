@@ -12,9 +12,9 @@
 
 @interface KanaView : UIView <UIWebViewDelegate, AVAudioPlayerDelegate>
 
-@property (unsafe_unretained, nonatomic) IBOutlet UIWebView *characterView;
-@property (unsafe_unretained, nonatomic) IBOutlet UIButton *audioButton;
-@property (unsafe_unretained, nonatomic) IBOutlet UIButton *closeButton;
+@property (weak, nonatomic) IBOutlet UIWebView *characterView;
+@property (weak, nonatomic) IBOutlet UIButton *audioButton;
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 -(IBAction)selectedAudioButton:(id)sender;
 -(IBAction)selectedCloseButton:(id)sender;

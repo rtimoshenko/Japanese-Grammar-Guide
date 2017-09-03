@@ -11,7 +11,7 @@
 
 @interface AboutViewController : AbstractViewController
 
-@property (unsafe_unretained, nonatomic) IBOutlet UIButton *moreAppsButton;
+@property (weak, nonatomic) IBOutlet UIButton *moreAppsButton;
 
 -(IBAction)moreAppsButtonPressed:(id)sender;
 

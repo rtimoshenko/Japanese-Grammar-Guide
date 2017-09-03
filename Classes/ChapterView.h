@@ -28,16 +28,16 @@ typedef NS_ENUM(NSInteger, DisplayType) {
 
 @interface ChapterView : UIView <UITableViewDelegate, UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate, UIScrollViewDelegate, CAAnimationDelegate>
 
-@property (unsafe_unretained, nonatomic) IBOutlet UIView *searchOverlayView;
-@property (unsafe_unretained, nonatomic) IBOutlet UIToolbar *filterToolbar;
-@property (unsafe_unretained, nonatomic) IBOutlet UITableView *tableView;
-@property (unsafe_unretained, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (unsafe_unretained, nonatomic) IBOutlet UILabel *resultsLabel;
+@property (weak, nonatomic) IBOutlet UIView *searchOverlayView;
+@property (weak, nonatomic) IBOutlet UIToolbar *filterToolbar;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UILabel *resultsLabel;
 
 @property (nonatomic, strong) UIView *disableOverlayView;
-@property (unsafe_unretained, nonatomic) id <ChapterViewDelegate> delegate;
-@property (unsafe_unretained, nonatomic) UINavigationItem *parentNavigationItem;
-@property (unsafe_unretained, nonatomic) UINavigationController *parentNavigationController;
+@property (weak, nonatomic) id <ChapterViewDelegate> delegate;
+@property (weak, nonatomic) UINavigationItem *parentNavigationItem;
+@property (weak, nonatomic) UINavigationController *parentNavigationController;
 @property (nonatomic, strong) UIBarButtonItem *editButton;
 @property (nonatomic, strong) UIBarButtonItem *doneButton;
 @property (nonatomic, strong) UIBarButtonItem *settingsButton;
