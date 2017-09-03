@@ -148,7 +148,7 @@
 
 -(void)doLoadNext:(id)sender
 {
-    Lesson *lesson = [self.chapterView loadNextLessonAndSaveIndexPath:YES];
+    Lesson *lesson = [self.dataProvider getNextLessonForLesson:self.lesson];
  
     // Just in case we get a nil result, let's make sure we only load valid lessons
     if (lesson)
@@ -160,7 +160,7 @@
 
 -(void)doLoadPrevious:(id)sender
 {
-    Lesson *lesson = [self.chapterView loadPreviousLessonAndSaveIndexPath:YES];
+    Lesson *lesson = [self.dataProvider getPreviousLessonForLesson:self.lesson];
     
     // Just in case we get a nil result, let's make sure we only load valid lessons
     if (lesson)
@@ -733,8 +733,8 @@ navigationType:(UIWebViewNavigationType)navigationType
 		}
 		else
 		{
-			[self.optionsView setHasPrevious:[self.chapterView hasPreviousLesson]];
-			[self.optionsView setHasNext:[self.chapterView hasNextLesson]];
+			[self.optionsView setHasPrevious:[self.dataProvider hasPreviousLessonForLesson:self.lesson]];
+			[self.optionsView setHasNext:[self.dataProvider hasNextLessonForLesson:self.lesson]];
 			[self.optionsView setHasBookmark:[self.chapterView lessonNumberIsBookmarked:self.lesson.lessonNumber]];
 		}
     }

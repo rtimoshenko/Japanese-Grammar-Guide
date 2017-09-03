@@ -349,6 +349,7 @@ collapseSecondaryViewController:(UIViewController *)secondaryViewController
         
         UINavigationController *nav = segue.destinationViewController;
         LessonViewController *lessonViewController = (LessonViewController *)nav.topViewController;
+        lessonViewController.dataProvider = self.dataProvider;
         [lessonViewController shouldLoadLesson:nil lesson:(Lesson *)sender];
     } else if ([segue.identifier isEqualToString:@"show_about"]) {
         // Show the about view controller, story board takes care of this

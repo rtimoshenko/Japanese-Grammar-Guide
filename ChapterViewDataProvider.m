@@ -26,12 +26,12 @@
         
         self.allChapters = [self lessonRepository].chapters;
         
-        
         if ([self getTargetChaptersFor:ChapterViewDisplayTypeBookmarks].count == 0) {
             
             for (Lesson *lesson in self.allChapters[5].lessons) {
                 [self.bookmarkRepository saveBookmarkForLesson:lesson];
             }
+            // TODO: disabled for testing
 //
 //            if (![self.chapterView lessonNumberIsBookmarked:self.lesson.lessonNumber])
 //                [self.bookmarkRepository saveBookmarkForLesson:self.lesson];
@@ -72,6 +72,52 @@
     }
     
     return NO;
+}
+
+- (Lesson *)getNextLessonForLesson:(Lesson *)lesson {
+    NSArray<Chapter *> *chapters = [self getTargetChaptersFor:ChapterViewDisplayTypeChapters];
+    
+    Chapter *currentChapter = chapters[lesson.lessonIndexPath.section];
+    NSArray <Lesson *> *currentChapterLessons = currentChapter.lessons;
+    
+    if (currentChapterLessons.count > lesson.lessonIndexPath.row + 1) {
+        return currentChapterLessons[lesson.lessonIndexPath.row + 1];
+        
+    } else if (chapters.count > lesson.lessonIndexPath.section) {
+        Chapter *nextChapter = chapters[lesson.lessonIndexPath.section + 1];
+        return nextChapter.lessons[0];
+        
+    } else {
+        return nil;
+    }
+}
+
+- (BOOL)hasNextLessonForLesson:(Lesson *)lesson {
+    return ([self getNextLessonForLesson:lesson] != nil);
+}
+
+- (Lesson *)getPreviousLessonForLesson:(Lesson *)lesson {
+    
+    NSArray<Chapter *> *chapters = [self getTargetChaptersFor:ChapterViewDisplayTypeChapters];
+    
+    Chapter *currentChapter = chapters[lesson.lessonIndexPath.section];
+    NSArray <Lesson *> *currentChapterLessons = currentChapter.lessons;
+    
+    if (lesson.lessonIndexPath.row > 0) {
+        return currentChapterLessons[lesson.lessonIndexPath.row - 1];
+        
+    } else if (lesson.lessonIndexPath.section > 0) {
+        
+        Chapter *previousChapter = chapters[lesson.lessonIndexPath.section - 1];
+        return previousChapter.lessons[previousChapter.lessons.count - 1];
+        
+    } else {
+        return nil;
+    }
+}
+
+- (BOOL)hasPreviousLessonForLesson:(Lesson *)lesson {
+    return ([self getPreviousLessonForLesson:lesson] != nil);
 }
 
 #pragma mark - Private Helpers
