@@ -27,52 +27,9 @@
 @property (strong, nonatomic) NSURLRequest *storedRequest;
 @property (copy, nonatomic) NSString *loadedHtml;
 
-
--(void)loadLesson:(Lesson *)lesson;
--(void)loadExercise;
--(void)showWebView;
--(void)showNav;
--(void)hideNav;
--(void)showOptions;
--(void)hideOptionsWithNav;
--(void)hideOptionsWithNav:(BOOL)withNav;
--(void)configureView:(BOOL)override;
--(void)handleTap;
--(void)handleLongPress;
--(void)handleSwipeLeft;
--(void)handleSwipeRight;
--(void)showTableView;
--(void)hideTableView;
 @end
 
 @implementation LessonViewController
-
-@synthesize navIsVisible = _navIsVisible;
-@synthesize tableIsVisible = _tableIsVisible;
-@synthesize isReloading = _isReloading;
-@synthesize isLoadingPrevious = _isLoadingPrevious;
-@synthesize lastContentOffset = _lastContentOffset;
-@synthesize shouldIgnoreShowMessage = _shouldIgnoreShowMessage;
-@synthesize kanaPlayer = _kanaPlayer;
-@synthesize timer = _timer;
-@synthesize lesson = _lesson;
-@synthesize exercise = _exercise;
-@synthesize hasLoadedRootWebView = _hasLoadedRootWebView;
-@synthesize storedRequest = _storedRequest;
-@synthesize loadedHtml = _loadedHtml;
-@synthesize webView = _webView;
-@synthesize showTableButton = _backToTableButton;
-@synthesize optionsView = _optionMenuViewController;
-@synthesize readingView = _readingView;
-@synthesize kanaView = _kanaView;
-@synthesize chapterView = _chapterView;
-@synthesize loadingView = _loadingView;
-@synthesize isExercise = _isExercise;
-@synthesize optionsToolbar = _optionsToolbar;
-@synthesize moreOptionsToolbar = _moreOptionsToolbar;
-@synthesize filterControl = _filterControl;
-@synthesize filterToolbar = _filterToolbar;
-
 
 // Loads lesson without modifying current view
 -(void)loadLesson:(Lesson *)lesson
@@ -81,22 +38,129 @@
 	self.hasLoadedRootWebView = NO;
 
 	[self hideOptionsWithNav:NO];
-    [self viewWillAppear:YES];}
+    [self setupView];
+    
+}
+
+- (void)setupView {
+ 
+    [self.optionsView.brightnessSlider setValue:[[UIScreen mainScreen] brightness]];
+    
+    // Since users could bookmark and then navigate away (and then come back), let's update
+    self.chapterView.bookmarkedChapters = (NSMutableArray *)[self.lessonRepository lessonsWithBookmarks:self.bookmarkRepository];
+    
+    // Did we already load the resource?
+    if ([self.loadedHtml length] < 1)
+    {
+        // In order to prevent pushing the web view around, let's set the bar to be translucent
+        //        if([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPad)
+        //            [self.navigationController.navigationBar setTranslucent:YES];
+        
+        // Load the html as a string from the file system
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"Web/index" ofType:@"html"];
+        NSString *html = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+        
+        NSLog(@"%@", html);
+        
+        
+        self.loadedHtml = html;
+        
+        //        // Make ipad specific configs
+        //        if (!self.isExercise && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+        //        {
+        //            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        //
+        //            // Get associated lesson data
+        //            NSInteger chapterNumber = [defaults integerForKey:SAVED_CHAPTER_KEY];
+        //            NSInteger lessonNumber = [defaults integerForKey:SAVED_LESSON_KEY];
+        //
+        //            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lessonNumber inSection:chapterNumber];
+        //
+        //            // Get associated lesson data
+        //            Lesson *lesson = [self.chapterView lessonWithIndexPath:indexPath];
+        //            self.lesson = lesson;
+        //
+        //            self.chapterView.cameFromIndexPath = indexPath;
+        //            [self.chapterView.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+        //        }
+    }
+    
+    // Hide webview until content is loaded
+    if (self.hasLoadedRootWebView)
+    {
+        [self showMenuAfterDelay];
+    }
+    else
+    {
+        // Make sure we always show the navigation bar so that users
+        // can abort loading at any time
+        [self showNav];
+        NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+        NSString *parsedHtml = [[NSString alloc] initWithFormat:self.loadedHtml, self.lesson.slug, self.lesson.lessonContent];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+        [defaults setInteger:self.chapterView.cameFromIndexPath.section forKey:SAVED_CHAPTER_KEY];
+        [defaults setInteger:self.chapterView.cameFromIndexPath.row forKey:SAVED_LESSON_KEY];
+        [defaults synchronize];
+        
+        self.title = self.lesson.slug;
+        self.exercise = self.lesson.exercise;
+        
+        
+        CATransition *transition = [CATransition animation];
+        
+        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        transition.duration = 0.25;
+        transition.type = kCATransitionFade;
+        transition.delegate = self;
+        
+        if (self.isLoadingPrevious)
+            transition.subtype = kCATransitionFromBottom;
+        else
+            transition.subtype = kCATransitionFromTop;
+        
+        
+        
+        [self.webView.layer addAnimation:transition forKey:nil];
+        
+        self.webView.hidden = YES;
+        self.loadingView.hidden = NO;
+        
+        // Tell the web view to load it
+        [self.webView stopLoading];
+        [self.webView loadHTMLString:parsedHtml baseURL:baseURL];
+        
+        
+        // If this is an exercise, let's disable various options
+        if (self.isExercise)
+        {
+            [self.optionsView setHasBookmark:YES];
+            [self.optionsView setHasNext:NO];
+            [self.optionsView setHasPrevious:NO];
+        }
+        else
+        {
+            [self.optionsView setHasPrevious:[self.dataProvider hasPreviousLessonForLesson:self.lesson]];
+            [self.optionsView setHasNext:[self.dataProvider hasNextLessonForLesson:self.lesson]];
+            [self.optionsView setHasBookmark:[self.chapterView lessonNumberIsBookmarked:self.lesson.lessonNumber]];
+        }
+    }
+}
 
 -(void)loadExercise
 {
     // Get associated lesson data
     Lesson *exercise = self.exercise;
     
-	NSString *defaultNib = [self deviceNibWithName:@"LessonViewController"];
-    LessonViewController *lessonViewController = [[LessonViewController alloc] initWithNibName:defaultNib bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LessonViewController *lessonViewController = [storyboard instantiateViewControllerWithIdentifier:@"LessonViewController"];
     
     lessonViewController.lesson = exercise;
     lessonViewController.isExercise = YES;
 	lessonViewController.hasLoadedRootWebView = NO;
     
-    [self.navigationController pushViewController:lessonViewController animated:YES];
-    [self showNav];
+    [self.navigationController showViewController:lessonViewController sender:nil];
+    //[self showNav];
 }
 
 #pragma mark - Option Menu View Controller Delegate
@@ -155,6 +219,7 @@
     {
         self.isLoadingPrevious = NO;
         [self loadLesson:lesson];
+        [self.delegate didChangeToLessonAt:lesson.lessonIndexPath];
     }
 }
 
@@ -167,6 +232,7 @@
     {
         self.isLoadingPrevious = YES;
         [self loadLesson:lesson];
+        [self.delegate didChangeToLessonAt:lesson.lessonIndexPath];
     }
 }
 
@@ -182,7 +248,7 @@
 -(void)showNav
 {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    self.navIsVisible = YES;
+    //self.navIsVisible = YES;
     
     // Show table button
 //    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad &&
@@ -204,7 +270,6 @@
 
 -(void)hideNav
 {
-    self.navIsVisible = NO;
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
@@ -594,159 +659,51 @@ navigationType:(UIWebViewNavigationType)navigationType
 
 #pragma mark UIScrollView Delegate Methods
 
--(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    if(scrollView.contentOffset.y > self.lastContentOffset)
-    {
-        // View was scrolled up
-        if (self.hasLoadedRootWebView)
-        {
-            // Is user near the bottom?
-            if (scrollView.contentSize.height - scrollView.contentOffset.y < 800)
-            {
-                [self showNav];
-                [self showOptions];
-            }
-            else
-            {
-                [self hideOptionsWithNav];
-            }
+    self.self.lastContentOffset = scrollView.contentOffset.y;
+}
+
+- (void) scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.y > self.self.lastContentOffset) {
+        if (scrollView.contentSize.height - scrollView.contentOffset.y < 800) {
+            [self showNav];
+            [self showOptions];
+        } else {
+            [self hideOptionsWithNav];
         }
+    } else {
+        [self showNav];
+        [self showOptions];
     }
-    else if (self.hasLoadedRootWebView)
-    {
-        // View was scrolled down
-        [self showMenuAfterDelay];
-    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView
+                 willDecelerate:(BOOL)decelerate {
     
-    self.lastContentOffset = scrollView.contentOffset.y;
+    if (scrollView.contentOffset.y > self.self.lastContentOffset) {
+        if (scrollView.contentSize.height - scrollView.contentOffset.y < 800) {
+            [self showNav];
+            [self showOptions];
+        } else {
+            [self hideOptionsWithNav];
+        }
+    } else {
+        [self showNav];
+        [self showOptions];
+    }
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	// Detect iOS version
-    NSString *ver = [[UIDevice currentDevice] systemVersion];
-    float ver_float = [ver floatValue];
-    
-    // Update brightness slider, in case screen brightness was modified outside of the app
-    if (ver_float < 5.0)
-    {
-        // UIScreen API unavailable prior to iOS4
-        [self.optionsView.brightnessSlider removeFromSuperview];
-        //[self.optionsView.brightnessSlider setValue:0.5];
-    }
-    else
-    {
-        [self.optionsView.brightnessSlider setValue:[[UIScreen mainScreen] brightness]];
-    }
-    
-    // Since users could bookmark and then navigate away (and then come back), let's update
-    self.chapterView.bookmarkedChapters = (NSMutableArray *)[self.lessonRepository lessonsWithBookmarks:self.bookmarkRepository];
-
-	// Did we already load the resource?
-	if ([self.loadedHtml length] < 1)
-	{
-		// In order to prevent pushing the web view around, let's set the bar to be translucent
-//        if([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPad)
-//            [self.navigationController.navigationBar setTranslucent:YES];
-
-		// Load the html as a string from the file system
-		NSString *path = [[NSBundle mainBundle] pathForResource:@"Web/index" ofType:@"html"];
-		NSString *html = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-
-		self.loadedHtml = html;
-        
-//        // Make ipad specific configs
-//        if (!self.isExercise && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-//        {
-//            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//
-//            // Get associated lesson data
-//            NSInteger chapterNumber = [defaults integerForKey:SAVED_CHAPTER_KEY];
-//            NSInteger lessonNumber = [defaults integerForKey:SAVED_LESSON_KEY];
-//
-//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lessonNumber inSection:chapterNumber];
-//
-//            // Get associated lesson data
-//            Lesson *lesson = [self.chapterView lessonWithIndexPath:indexPath];
-//            self.lesson = lesson;
-//
-//            self.chapterView.cameFromIndexPath = indexPath;
-//            [self.chapterView.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
-//        }
-	}
-    
-	// Hide webview until content is loaded
-    if (self.hasLoadedRootWebView)
-    {
-        [self showMenuAfterDelay];
-    }
-    else
-    {
-        // Make sure we always show the navigation bar so that users
-        // can abort loading at any time
-        [self showNav];
-        NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-        NSString *parsedHtml = [[NSString alloc] initWithFormat:self.loadedHtml, self.lesson.slug, self.lesson.lessonContent];
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
-		[defaults setInteger:self.chapterView.cameFromIndexPath.section forKey:SAVED_CHAPTER_KEY];
-		[defaults setInteger:self.chapterView.cameFromIndexPath.row forKey:SAVED_LESSON_KEY];
-		[defaults synchronize];
-        
-        self.title = self.lesson.slug;
-        self.exercise = self.lesson.exercise;
-
-        
-        CATransition *transition = [CATransition animation];
-        
-        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        transition.duration = 0.25;
-        transition.type = kCATransitionFade;
-        transition.delegate = self;
-        
-        if (self.isLoadingPrevious)
-            transition.subtype = kCATransitionFromBottom;
-        else
-            transition.subtype = kCATransitionFromTop;
-        
-        
-        
-        [self.webView.layer addAnimation:transition forKey:nil];
-
-        self.webView.hidden = YES;
-		self.loadingView.hidden = NO;
-        
-        // Tell the web view to load it
-        [self.webView stopLoading];
-        [self.webView loadHTMLString:parsedHtml baseURL:baseURL];
-
-
-		// If this is an exercise, let's disable various options
-		if (self.isExercise)
-		{
-			[self.optionsView setHasBookmark:YES];
-			[self.optionsView setHasNext:NO];
-			[self.optionsView setHasPrevious:NO];
-		}
-		else
-		{
-			[self.optionsView setHasPrevious:[self.dataProvider hasPreviousLessonForLesson:self.lesson]];
-			[self.optionsView setHasNext:[self.dataProvider hasNextLessonForLesson:self.lesson]];
-			[self.optionsView setHasBookmark:[self.chapterView lessonNumberIsBookmarked:self.lesson.lessonNumber]];
-		}
-    }
+    [self setupView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    if (!self.isExercise)
-    {
-		[self.navigationController.navigationBar setTranslucent:NO];
-    }
-    
     // Invalidate options timer, otherwise we'll get an exc_bad_access
     // when the view disappears
     [self.optionsView.timer invalidate];

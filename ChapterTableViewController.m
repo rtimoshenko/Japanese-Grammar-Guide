@@ -20,17 +20,17 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
     TableviewViewModeEditingBookmarks
 };
 
-@interface ChapterTableViewController ()
+@interface ChapterTableViewController () <LessonViewControllerDelegate>
 
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSArray<Chapter *>* chapters;
 @property (nonatomic, strong) ChapterViewDataProvider *dataProvider;
-
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *noResultsLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *chapterTypeSegmentedControl;
 @property (strong, nonatomic) UIBarButtonItem *doneBarButton;
 @property (strong, nonatomic) UIBarButtonItem *editBarButton;
+@property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 
 @end
 
@@ -40,14 +40,19 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    
     self.splitViewController.delegate = self;
+    
+    // Set a defualt selected index path
+    self.selectedIndexPath = [NSIndexPath indexPathForRow:0
+                                                inSection:0];
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController: nil];
     
     self.searchController.searchResultsUpdater = self;
     self.searchController.dimsBackgroundDuringPresentation = false;
     
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    [self setAutomaticallyAdjustsScrollViewInsets:NO];
     self.definesPresentationContext = true;
     self.tableView.tableHeaderView = self.searchController.searchBar;
     
@@ -168,9 +173,14 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    self.selectedIndexPath = indexPath;
     Lesson *lesson = self.chapters[indexPath.section].lessons[indexPath.row];
+    
     [self performSegueWithIdentifier:@"show_lesson" sender:lesson];
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (self.splitViewController.isCollapsed) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
 }
 
 // Override to support conditional editing of the table view.
@@ -339,6 +349,45 @@ collapseSecondaryViewController:(UIViewController *)secondaryViewController
     return YES;
 }
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    // Get the screen
+    UIScreen *screen = [UIScreen mainScreen];
+    
+    if (screen.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact
+        && screen.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassCompact) {
+        // Do notihing as compact x compact never shows in split mode
+        return;
+    }
+    
+    // We are showing in regular, highlight the correct tableview cell
+    if (screen.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        [self.tableView selectRowAtIndexPath:self.selectedIndexPath
+                                    animated:YES
+                              scrollPosition:UITableViewScrollPositionMiddle];
+        
+        return;
+    }
+    
+    if (screen.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) {
+        [self.tableView deselectRowAtIndexPath:self.selectedIndexPath animated:YES];
+        return;
+    }
+}
+
+#pragma mark - LessonViewControllerDelegate
+
+- (void)didChangeToLessonAt:(NSIndexPath *)indexPath {
+    self.selectedIndexPath = indexPath;
+    
+    UIScreen *screen = [UIScreen mainScreen];
+    
+    if (screen.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        [self.tableView selectRowAtIndexPath:indexPath
+                                    animated:YES
+                              scrollPosition:UITableViewScrollPositionMiddle];
+    }
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -350,6 +399,7 @@ collapseSecondaryViewController:(UIViewController *)secondaryViewController
         UINavigationController *nav = segue.destinationViewController;
         LessonViewController *lessonViewController = (LessonViewController *)nav.topViewController;
         lessonViewController.dataProvider = self.dataProvider;
+        lessonViewController.delegate = self;
         [lessonViewController shouldLoadLesson:nil lesson:(Lesson *)sender];
     } else if ([segue.identifier isEqualToString:@"show_about"]) {
         // Show the about view controller, story board takes care of this

@@ -12,9 +12,13 @@
 #import "ReadingView.h"
 #import "KanaView.h"
 #import "ChapterView.h"
-
 @class Lesson;
 @class ChapterViewDataProvider;
+
+@protocol LessonViewControllerDelegate
+-(void)didChangeToLessonAt:(NSIndexPath *)indexPath;
+@end
+
 
 @interface LessonViewController : AbstractViewController <OptionsViewDelegate, ReadingViewDelegate, ChapterViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, CAAnimationDelegate>
 
@@ -31,6 +35,7 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *filterToolbar;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *filterControl;
 @property (nonatomic, strong) ChapterViewDataProvider *dataProvider;
+@property (nonatomic, weak) id<LessonViewControllerDelegate> delegate;
 
 -(IBAction)didSelectFilter:(id)sender;
 -(IBAction)didPressShowTableButton:(id)sender;

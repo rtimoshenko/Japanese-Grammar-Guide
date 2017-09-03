@@ -152,22 +152,13 @@
             [self.extraOptionsView.layer addAnimation:transition forKey:nil];
             self.extraOptionsView.hidden = NO;
             self.extraOptionsView.alpha = 1.0f;
-		}
-        
-        
-        // Detect iOS version
-        NSString *ver = [[UIDevice currentDevice] systemVersion];
-        float ver_float = [ver floatValue];
-        
-        // Update brightness slider, in case screen brightness was modified outside of the app
-        if (ver_float >= 5.0)
-        {
-            // UIScreen access only available in iOS5
-            [self.brightnessSlider setValue:[[UIScreen mainScreen] brightness]];
-            
-            // UIButton tint color only available in iOS5
-            self.optionsButton.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
         }
+        
+        // UIScreen access only available in iOS5
+        [self.brightnessSlider setValue:[[UIScreen mainScreen] brightness]];
+        
+        // UIButton tint color only available in iOS5
+        self.optionsButton.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
     }
 }
 
@@ -187,15 +178,8 @@
 	
     self.shouldIgnoreHideMessage = NO;
 	self.isVisibleExtraOptions = NO;
-    
-    // Detect iOS version
-    NSString *ver = [[UIDevice currentDevice] systemVersion];
-    float ver_float = [ver floatValue];
-    
-    // UIButton tint color only available in iOS5
-    if (ver_float >= 5.0)
-        self.optionsButton.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
-        
+
+    self.optionsButton.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
     
     [self setDisplayTimer];
 }
@@ -271,16 +255,8 @@
 
 -(IBAction)brightnessChanges:(UISlider *)sender 
 {
-    // Detect iOS version
-    NSString *ver = [[UIDevice currentDevice] systemVersion];
-    float ver_float = [ver floatValue];
-    
-    // Update brightness slider, in case screen brightness was modified outside of the app
-    if (ver_float >= 5.0)
-    {
-        [[UIScreen mainScreen] setBrightness:[sender value]];
-        [[UIScreen mainScreen] setWantsSoftwareDimming:YES];
-    }
+    [[UIScreen mainScreen] setBrightness:[sender value]];
+    [[UIScreen mainScreen] setWantsSoftwareDimming:YES];
 }
 
 -(IBAction)fontIncreaseSelected:(id)sender
@@ -335,19 +311,12 @@
 
 -(void)toggleButton:(UIBarButtonItem *)button shouldEnable:(BOOL)enable
 {
-    // Detect iOS version
-    NSString *ver = [[UIDevice currentDevice] systemVersion];
-    float ver_float = [ver floatValue];
-    
     button.enabled = enable;
-
-    // UIButton tint color only available in iOS5
-    if (ver_float >= 5.0)
-    {
-        if (enable)
-            button.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
-        else
-            button.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
+    
+    if (enable) {
+        button.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
+    } else {
+        button.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
     }
 }
 
