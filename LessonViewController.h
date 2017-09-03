@@ -15,7 +15,7 @@
 
 @class Lesson;
 
-@interface LessonViewController : AbstractViewController <OptionsViewDelegate, ReadingViewDelegate, ChapterViewDelegate, UIWebViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, CAAnimationDelegate>
+@interface LessonViewController : AbstractViewController <OptionsViewDelegate, ReadingViewDelegate, ChapterViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, CAAnimationDelegate>
 
 
 @property (unsafe_unretained, nonatomic) IBOutlet UIWebView *webView;

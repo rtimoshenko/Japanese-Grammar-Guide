@@ -29,24 +29,20 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *noResultsLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *chapterTypeSegmentedControl;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *doneBarButton;
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *editBarButton;
-
+@property (strong, nonatomic) UIBarButtonItem *doneBarButton;
+@property (strong, nonatomic) UIBarButtonItem *editBarButton;
 
 @end
+
 
 @implementation ChapterTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+
     
     self.splitViewController.delegate = self;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.searchController = [[UISearchController alloc] initWithSearchResultsController: nil];
     
     self.searchController.searchResultsUpdater = self;
@@ -240,29 +236,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.tableView reloadData];
     
     [self setupRightNavButtonForState:[self getSelectedViewMode]];
-    
-    
-    //self.chapterView.displayType = segmentedControl.selectedSegmentIndex;
-    
-    //    self.
-    //    [self.chapterView resetSearchField];
-    //
-    //    // Make sure we're always using the latest set of bookmarks
-    //    if (segmentedControl.selectedSegmentIndex == kBookmarks)
-    //        self.chapterView.bookmarkedChapters = (NSMutableArray *)[self.lessonRepository lessonsWithBookmarks:self.bookmarkRepository];
-    //
-    //    // Make sure we show the navigation bar, since we could have come
-    //    // back from a search results view
-    //    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
-- (IBAction)doneBarButtonTapped:(id)sender {
+- (void)doneBarButtonTapped:(id)sender {
     [self setupRightNavButtonForState:TableviewViewModeBookmarks];
     [self.tableView setEditing:NO animated:YES];
     [self hideToolBar:NO];
 }
 
-- (IBAction)editBarButtonTapped:(id)sender {
+- (void)editBarButtonTapped:(id)sender {
     [self setupRightNavButtonForState:TableviewViewModeEditingBookmarks];
     [self.tableView setEditing:YES animated:YES];
     [self hideToolBar:YES];

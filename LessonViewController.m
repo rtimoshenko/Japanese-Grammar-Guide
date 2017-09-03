@@ -163,11 +163,11 @@
 {
     Lesson *lesson = [self.chapterView loadPreviousLessonAndSaveIndexPath:YES];
     
-    // Just in case we get a nil result, let's make sure we only load valid lessons 
+    // Just in case we get a nil result, let's make sure we only load valid lessons
     if (lesson)
     {
         self.isLoadingPrevious = YES;
-        [self loadLesson:lesson]; 
+        [self loadLesson:lesson];
     }
 }
 
@@ -269,7 +269,7 @@
     if (self.hasLoadedRootWebView && !self.navIsVisible)
     {
         [self showMenuAfterDelay];
-    }    
+    }
 }
 
 -(void)handleSwipeLeft
@@ -362,7 +362,7 @@
     BOOL useNightMode = [defaults boolForKey:NIGHT_MODE_KEY];
     NSInteger fontSize = [defaults integerForKey:FONT_SIZE_KEY];
     NSString *isIpad = @"false";
-        
+    
     if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         isIpad = @"true";
     
@@ -393,7 +393,7 @@
         transition.subtype = kCATransitionFromBottom;
     else
         transition.subtype = kCATransitionFromTop;
-        
+    
     
     
     [self.webView.layer addAnimation:transition forKey:nil];
@@ -423,14 +423,14 @@
 - (void)shouldLoadLesson:(id)sender lesson:(Lesson *)lesson
 {
     // Make sure we don't reload the same lesson
-//    if ((self.lesson.lessonIndexPath.section != lesson.lessonIndexPath.section) || 
-//        (self.lesson.lessonIndexPath.row != lesson.lessonIndexPath.row))   
+//    if ((self.lesson.lessonIndexPath.section != lesson.lessonIndexPath.section) ||
+//        (self.lesson.lessonIndexPath.row != lesson.lessonIndexPath.row))
 //    {
         NSInteger currentPathValue = self.lesson.lessonIndexPath.section + self.lesson.lessonIndexPath.row;
         NSInteger newPathValue = lesson.lessonIndexPath.section + lesson.lessonIndexPath.row;
-        
+    
         self.isLoadingPrevious = (newPathValue < currentPathValue);
-        
+    
         [self loadLesson:lesson];
 //    }
     
@@ -459,7 +459,7 @@
     
     [self.chapterView resetSearchField];
     
-    // Make sure we show the navigation bar, since we could have come 
+    // Make sure we show the navigation bar, since we could have come
     // back from a search results view
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
@@ -477,36 +477,64 @@
     // since this method is triggered any time any object finishes loading,
     // let's make sure we run our set up only once
     if (!self.hasLoadedRootWebView)
-    {   
+    {
 		self.hasLoadedRootWebView = YES;
         //[self hideTableView];
         [self configureView:NO];
     }
 }
 
--(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType 
+-(BOOL)webView:(UIWebView *)webView
+shouldStartLoadWithRequest:(NSURLRequest *)request
+navigationType:(UIWebViewNavigationType)navigationType
 {
 	// Since webview calls are unpredictable, let's try to catch exceptions
-    @try 
+    @try
 	{
         self.shouldIgnoreShowMessage = YES;
 		NSString *urlString = [[request URL] absoluteString];
     
-		if(navigationType == UIWebViewNavigationTypeLinkClicked) 
+		if(navigationType == UIWebViewNavigationTypeLinkClicked)
 		{
 			NSRange httpRange = [urlString rangeOfString:@"http"];
 			NSRange wwwRange = [urlString rangeOfString:@"www"];
 		
 			// [urlString hasPrefix:@"somefakeurlscheme://video-ended"]
-			if ((wwwRange.length != NSNotFound && wwwRange.length > 0) || (httpRange.length != NSNotFound && httpRange.length > 0))
-			{
-				// Save request
-				self.storedRequest = request;
-            
-				/* open an alert with OK and Cancel buttons */
-				NSString *message = @"This link will take you out of the \"Learning Japanese\" application. Would you like to open this page in Safari?";
-				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notice" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Safari", nil];
-				[alert show];
+            if ((wwwRange.length != NSNotFound && wwwRange.length > 0) || (httpRange.length != NSNotFound && httpRange.length > 0))
+            {
+                // Save request
+                self.storedRequest = request;
+                
+                /* open an alert with OK and Cancel buttons */
+                NSString *message = @"This link will take you out of the \"Learning Japanese\" application. Would you like to open this page in Safari?";
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Notice"
+                                                                               message:message
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                
+                __weak __typeof(&*self)weakSelf = self;
+                
+                [alert addAction:[UIAlertAction actionWithTitle:@"Cancel"
+                                                          style:UIAlertActionStyleCancel
+                                                        handler:^(UIAlertAction * _Nonnull action) {
+                                                            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+                                                        }]];
+                
+                [alert addAction:[UIAlertAction actionWithTitle:@"Safari"
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction * _Nonnull action) {
+                                                            // Proceed to Safari
+                                                            [[UIApplication sharedApplication] openURL:weakSelf.storedRequest.URL];
+                                                            
+                                                            weakSelf.storedRequest = nil;
+                                                            weakSelf.shouldIgnoreShowMessage = NO;
+                                                            [weakSelf dismissViewControllerAnimated:NO completion:nil];
+                                                            
+                                                        }]];
+                
+                [self presentViewController:alert
+                                   animated:YES
+                                 completion:nil];
             
 				return NO;
 			}
@@ -516,7 +544,7 @@
 			NSRange stringRange = [urlString rangeOfString:@"ljapp"];
         
 			if (stringRange.length != NSNotFound && stringRange.length > 0)
-			{	
+			{
 				NSArray *components = [urlString componentsSeparatedByString:@":"];
             
 				if ([components count] > 1)
@@ -524,9 +552,9 @@
                     NSString *action = (NSString *)[components objectAtIndex:1];
 					if ([action isEqualToString:@"reading"])
 					{
-						NSString *definitionString = [(NSString *)[components objectAtIndex:2] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-						NSString *readingString = [(NSString *)[components objectAtIndex:3] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-						NSString *characterString = [(NSString *)[components objectAtIndex:4] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+						NSString *definitionString = [(NSString *)[components objectAtIndex:2] stringByRemovingPercentEncoding];
+						NSString *readingString = [(NSString *)[components objectAtIndex:3] stringByRemovingPercentEncoding];
+						NSString *characterString = [(NSString *)[components objectAtIndex:4] stringByRemovingPercentEncoding];
                     
 						[self.readingView setLabelText:[NSString stringWithFormat:@"%@ \n %@ \n %@", characterString, readingString, definitionString]];
 						[self.readingView show];
@@ -537,7 +565,7 @@
 					{
 						[self.readingView setLabelText:@"Playing Audio"];
                         
-                        NSString *characterString = [(NSString *)[components objectAtIndex:2] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                        NSString *characterString = [(NSString *)[components objectAtIndex:2] stringByRemovingPercentEncoding];
                         NSString *audioPath = [NSString stringWithFormat:@"%@/Audio/%@.mp3", [[NSBundle mainBundle] resourcePath], characterString];
                         
                         // Set up audio
@@ -577,7 +605,7 @@
 		}
 
     }
-    @catch (NSException *exception) 
+    @catch (NSException *exception)
 	{
         NSLog(@"Exception - %@",[exception description]);
     }
@@ -597,7 +625,7 @@
         if (self.hasLoadedRootWebView)
         {
             // Is user near the bottom?
-            if (scrollView.contentSize.height - scrollView.contentOffset.y < 800) 
+            if (scrollView.contentSize.height - scrollView.contentOffset.y < 800)
             {
                 [self showNav];
                 [self showOptions];
@@ -616,21 +644,6 @@
     
     self.lastContentOffset = scrollView.contentOffset.y;
 }
-
-
-
-#pragma mark - Alert view delegate methods
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-	// Proceed to Safari
-	if (buttonIndex == 1)
-		[[UIApplication sharedApplication] openURL:self.storedRequest.URL];
-	
-	self.storedRequest = nil;
-    self.shouldIgnoreShowMessage = NO;
-}
-
 
 #pragma mark - View lifecycle
 
@@ -695,7 +708,7 @@
     }
     else
     {
-        // Make sure we always show the navigation bar so that users 
+        // Make sure we always show the navigation bar so that users
         // can abort loading at any time
         [self showNav];
         NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];

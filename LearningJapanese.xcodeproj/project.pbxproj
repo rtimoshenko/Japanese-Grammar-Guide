@@ -102,7 +102,6 @@
 		04C9AE5B14D50B680094F0AD /* OptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C9AE5614D50B680094F0AD /* OptionsView.m */; };
 		04C9AE5C14D50B680094F0AD /* ReadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C9AE5714D50B680094F0AD /* ReadingView.m */; };
 		04C9AE6814D5187C0094F0AD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04C9AE6714D5187C0094F0AD /* SystemConfiguration.framework */; };
-		04CD7DBA14DCDC9900D6E65B /* ChapterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CD7DB914DCDC9900D6E65B /* ChapterView.m */; };
 		04D4534B14D8E81700BCA9B2 /* KanaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D4534A14D8E81700BCA9B2 /* KanaView.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
@@ -683,7 +682,6 @@
 				04C9AE5B14D50B680094F0AD /* OptionsView.m in Sources */,
 				04C9AE5C14D50B680094F0AD /* ReadingView.m in Sources */,
 				04D4534B14D8E81700BCA9B2 /* KanaView.m in Sources */,
-				04CD7DBA14DCDC9900D6E65B /* ChapterView.m in Sources */,
 				F4E7E30D1F49D480006C79DC /* ChapterViewDataProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
