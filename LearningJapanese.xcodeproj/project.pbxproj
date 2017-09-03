@@ -111,6 +111,10 @@
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
 		7885C5FD1198AD1000BD7FE6 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7885C5FC1198AD1000BD7FE6 /* libsqlite3.0.dylib */; };
 		78D35D2211BFEBF9001EB431 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D35D2111BFEBF9001EB431 /* AVFoundation.framework */; };
+		F4796C661F4B394900394AF7 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4796C651F4B394900394AF7 /* Launch.storyboard */; };
+		F4E7E30D1F49D480006C79DC /* ChapterViewDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E7E30C1F49D480006C79DC /* ChapterViewDataProvider.m */; };
+		F4F0828C1F3E2D6B00991D10 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4F0828B1F3E2D6B00991D10 /* Main.storyboard */; };
+		F4F082AF1F3F100F00991D10 /* ChapterTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F082AE1F3F100F00991D10 /* ChapterTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -240,6 +244,12 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7885C5FC1198AD1000BD7FE6 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		78D35D2111BFEBF9001EB431 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		F4796C651F4B394900394AF7 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
+		F4E7E30B1F49D480006C79DC /* ChapterViewDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChapterViewDataProvider.h; sourceTree = "<group>"; };
+		F4E7E30C1F49D480006C79DC /* ChapterViewDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChapterViewDataProvider.m; sourceTree = "<group>"; };
+		F4F0828B1F3E2D6B00991D10 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		F4F082AD1F3F100F00991D10 /* ChapterTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChapterTableViewController.h; sourceTree = "<group>"; };
+		F4F082AE1F3F100F00991D10 /* ChapterTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChapterTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +283,8 @@
 				04C9AE4514D50B0D0094F0AD /* ChapterViewController.m */,
 				04C9AE4114D50B0D0094F0AD /* LessonViewController.h */,
 				04C9AE4714D50B0D0094F0AD /* LessonViewController.m */,
+				F4F082AD1F3F100F00991D10 /* ChapterTableViewController.h */,
+				F4F082AE1F3F100F00991D10 /* ChapterTableViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -289,6 +301,7 @@
 		0420EA0B14C5313C002ADDA7 /* Learning Japanese */ = {
 			isa = PBXGroup;
 			children = (
+				F4F0828A1F3E2D5000991D10 /* Story Board */,
 				04D4543B14D8F32000BCA9B2 /* Views */,
 				04C9AE3B14D50A1F0094F0AD /* Helpers */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
@@ -337,6 +350,8 @@
 				04C9AE5614D50B680094F0AD /* OptionsView.m */,
 				04C9AE5214D50B680094F0AD /* ReadingView.h */,
 				04C9AE5714D50B680094F0AD /* ReadingView.m */,
+				F4E7E30B1F49D480006C79DC /* ChapterViewDataProvider.h */,
+				F4E7E30C1F49D480006C79DC /* ChapterViewDataProvider.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -497,6 +512,15 @@
 			name = iPhone;
 			sourceTree = "<group>";
 		};
+		F4F0828A1F3E2D5000991D10 /* Story Board */ = {
+			isa = PBXGroup;
+			children = (
+				F4F0828B1F3E2D6B00991D10 /* Main.storyboard */,
+				F4796C651F4B394900394AF7 /* Launch.storyboard */,
+			);
+			name = "Story Board";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -583,6 +607,8 @@
 				04A3A6AE14E21576005A2CFA /* bg-toolbar.png in Resources */,
 				04A3A6AF14E21576005A2CFA /* bg-toolbar@2x.png in Resources */,
 				04A3A6B014E21576005A2CFA /* icon-close.png in Resources */,
+				F4F0828C1F3E2D6B00991D10 /* Main.storyboard in Resources */,
+				F4796C661F4B394900394AF7 /* Launch.storyboard in Resources */,
 				04A3A6B114E21576005A2CFA /* icon-close@2x.png in Resources */,
 				04A3A6B214E21576005A2CFA /* icon-font-minus.png in Resources */,
 				04A3A6B314E21576005A2CFA /* icon-font-minus@2x.png in Resources */,
@@ -644,6 +670,7 @@
 				04446BF714CBAABB002A4EE3 /* FMDatabase.m in Sources */,
 				04446BF814CBAABB002A4EE3 /* FMDatabaseAdditions.m in Sources */,
 				04446BF914CBAABB002A4EE3 /* FMResultSet.m in Sources */,
+				F4F082AF1F3F100F00991D10 /* ChapterTableViewController.m in Sources */,
 				044445AF14CDEA42009EC9FE /* AbstractRepository.m in Sources */,
 				04C9AE4814D50B0D0094F0AD /* AboutViewController.m in Sources */,
 				04C9AE4914D50B0D0094F0AD /* AbstractViewController.m in Sources */,
@@ -657,6 +684,7 @@
 				04C9AE5C14D50B680094F0AD /* ReadingView.m in Sources */,
 				04D4534B14D8E81700BCA9B2 /* KanaView.m in Sources */,
 				04CD7DBA14DCDC9900D6E65B /* ChapterView.m in Sources */,
+				F4E7E30D1F49D480006C79DC /* ChapterViewDataProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,7 +705,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Learning_Japanese-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ronaldtimoshenko.learningjapanese;
 				PRODUCT_NAME = LearningJapanese;
 				PROVISIONING_PROFILE = "";
@@ -697,7 +725,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Learning_Japanese-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ronaldtimoshenko.learningjapanese;
 				PRODUCT_NAME = LearningJapanese;
 				PROVISIONING_PROFILE = "";
@@ -737,7 +765,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "2CA92961-23E6-4F57-ADCE-7C5E067EF36A";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2CA92961-23E6-4F57-ADCE-7C5E067EF36A";
@@ -775,7 +803,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "DC8C4776-97DC-4C1C-AAFB-517B4EC0C4F4";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D9D33BB9-E19D-4BCF-95BB-CB8D98B38943";

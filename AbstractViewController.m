@@ -81,6 +81,7 @@
 
 -(void)viewDidLoad
 {
+    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     [super viewDidLoad];
 }
 

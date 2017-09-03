@@ -10,12 +10,13 @@
 #import "AbstractRepository.h"
 
 @class Lesson;
+@class Chapter;
 @class BookmarkRepository;
 
 @interface LessonRepository : AbstractRepository
 
-@property (nonatomic, strong) NSArray *chapters;
-@property (nonatomic, strong) NSArray *lessons;
+@property (nonatomic, strong) NSArray<Chapter *> *chapters;
+@property (nonatomic, strong) NSArray<Lesson *> *lessons;
 @property (nonatomic, strong) NSArray *exercises;
 
 -(Lesson *)lessonWithId:(NSInteger)lessonNumber;

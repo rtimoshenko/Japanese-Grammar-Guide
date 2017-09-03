@@ -32,6 +32,7 @@
 
 -(IBAction)didSelectFilter:(id)sender;
 -(IBAction)didPressShowTableButton:(id)sender;
+- (void)shouldLoadLesson:(id)sender lesson:(Lesson *)lesson;
 
 @property (strong, nonatomic) Lesson *lesson;
 @property (strong, nonatomic) Lesson *exercise;

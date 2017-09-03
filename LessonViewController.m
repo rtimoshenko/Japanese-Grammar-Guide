@@ -73,7 +73,6 @@
 @synthesize filterToolbar = _filterToolbar;
 
 
-
 // Loads lesson without modifying current view
 -(void)loadLesson:(Lesson *)lesson
 {   
@@ -98,8 +97,8 @@
     [self.navigationController pushViewController:lessonViewController animated:YES];
     [self showNav];
     
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        [self hideTableView];
+//    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+//        [self hideTableView];
 }
 
 #pragma mark - Option Menu View Controller Delegate
@@ -133,8 +132,8 @@
 
     [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"setNightMode(%@);", nightModeString]];
     
-    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        [self.chapterView reloadAsNightTheme:nightMode];
+//    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+//        [self.chapterView reloadAsNightTheme:nightMode];
 }
 
 -(void)doChangeFontSize:(id)sender changeTo:(NSInteger)fontSize;
@@ -187,21 +186,21 @@
     self.navIsVisible = YES;
     
     // Show table button
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && 
-        !self.isExercise && 
-        self.showTableButton.hidden)
-    {
-        CATransition *transition = [CATransition animation];
-        
-        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        transition.duration = 0.25;
-        transition.type = kCATransitionPush;
-        transition.subtype = kCATransitionFromLeft;
-        transition.delegate = self;
-        
-        [self.showTableButton.layer addAnimation:transition forKey:nil];
-        self.showTableButton.hidden = NO;
-    }
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad &&
+//        !self.isExercise &&
+//        self.showTableButton.hidden)
+//    {
+//        CATransition *transition = [CATransition animation];
+//
+//        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//        transition.duration = 0.25;
+//        transition.type = kCATransitionPush;
+//        transition.subtype = kCATransitionFromLeft;
+//        transition.delegate = self;
+//
+//        [self.showTableButton.layer addAnimation:transition forKey:nil];
+//        self.showTableButton.hidden = NO;
+//    }
 }
 
 -(void)hideNav
@@ -209,27 +208,27 @@
     self.navIsVisible = NO;
     
     // Don't hide nav for iPad
-    if([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPad)
-    {
+    //if([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPad)
+    //{
         [self.navigationController setNavigationBarHidden:YES animated:YES];
-    }
+   // }
     
-    // Hide table button
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && 
-        !self.isExercise && 
-        !self.showTableButton.hidden)
-    {
-        CATransition *transition = [CATransition animation];
-        
-        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        transition.duration = 0.25;
-        transition.type = kCATransitionPush;
-        transition.subtype = kCATransitionFromRight;
-        transition.delegate = self;
-        
-        [self.showTableButton.layer addAnimation:transition forKey:nil];
-        self.showTableButton.hidden = YES;
-    }
+//    // Hide table button
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad &&
+//        !self.isExercise &&
+//        !self.showTableButton.hidden)
+//    {
+//        CATransition *transition = [CATransition animation];
+//
+//        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//        transition.duration = 0.25;
+//        transition.type = kCATransitionPush;
+//        transition.subtype = kCATransitionFromRight;
+//        transition.delegate = self;
+//
+//        [self.showTableButton.layer addAnimation:transition forKey:nil];
+//        self.showTableButton.hidden = YES;
+//    }
 }
 
 -(void)showOptions
@@ -283,15 +282,16 @@
 
 -(void)handleSwipeRight
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+//    {
         [self.navigationController popViewControllerAnimated:YES];
-    }
-    else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && self.isExercise)
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else if (self.hasLoadedRootWebView && !self.tableIsVisible && !self.isExercise)
+//    }
+//    else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && self.isExercise)
+//    {
+//        [self.navigationController popViewControllerAnimated:YES];
+//    }
+    //else
+        if (self.hasLoadedRootWebView && !self.tableIsVisible && !self.isExercise)
     {
         [self showTableView];
     }
@@ -317,43 +317,43 @@
 
 -(void)showTableView
 {
-	if (!self.tableIsVisible && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) 
-    {
-        self.optionsView.shouldIgnoreHideMessage = NO;
-        [self hideOptionsWithNav:YES];
-        self.tableIsVisible = YES;
-        self.chapterView.alpha = 1.0f;
-        
-        [self.chapterView reloadAsNightTheme:self.chapterView.isNightMode];
-        
-        [UIView beginAnimations:nil context:nil];
-		[UIView setAnimationDuration:0.35f];
-		[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
-        
-        [self.chapterView setFrame:CGRectMake(0, 0, self.chapterView.bounds.size.width, self.chapterView.bounds.size.height)];
-        [self.webView setFrame:CGRectMake(self.chapterView.bounds.size.width + 1, 0, self.webView.bounds.size.width, self.webView.bounds.size.height)];
-        
-		[UIView commitAnimations];
-    }
+//    if (!self.tableIsVisible && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+//    {
+//        self.optionsView.shouldIgnoreHideMessage = NO;
+//        [self hideOptionsWithNav:YES];
+//        self.tableIsVisible = YES;
+//        self.chapterView.alpha = 1.0f;
+//
+//        [self.chapterView reloadAsNightTheme:self.chapterView.isNightMode];
+//
+//        [UIView beginAnimations:nil context:nil];
+//        [UIView setAnimationDuration:0.35f];
+//        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
+//
+//        [self.chapterView setFrame:CGRectMake(0, 0, self.chapterView.bounds.size.width, self.chapterView.bounds.size.height)];
+//        [self.webView setFrame:CGRectMake(self.chapterView.bounds.size.width + 1, 0, self.webView.bounds.size.width, self.webView.bounds.size.height)];
+//
+//        [UIView commitAnimations];
+//    }
 }
 
 -(void)hideTableView
 {
-	if (self.tableIsVisible && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) 
-    {
-        self.tableIsVisible = NO;
-        [self.chapterView didHideChapterView:YES];
-        
-        [UIView beginAnimations:nil context:nil];
-		[UIView setAnimationDuration:0.35f];
-		[UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
-        
-        //self.chapterView.hidden = YES;
-        [self.chapterView setFrame:CGRectMake(self.chapterView.bounds.size.width * -1, 0, self.chapterView.bounds.size.width, self.chapterView.bounds.size.height)];
-        [self.webView setFrame:CGRectMake(0, 0, self.webView.bounds.size.width, self.webView.bounds.size.height)];
-        
-		[UIView commitAnimations];
-    }    
+//    if (self.tableIsVisible && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+//    {
+//        self.tableIsVisible = NO;
+//        [self.chapterView didHideChapterView:YES];
+//
+//        [UIView beginAnimations:nil context:nil];
+//        [UIView setAnimationDuration:0.35f];
+//        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
+//
+//        //self.chapterView.hidden = YES;
+//        [self.chapterView setFrame:CGRectMake(self.chapterView.bounds.size.width * -1, 0, self.chapterView.bounds.size.width, self.chapterView.bounds.size.height)];
+//        [self.webView setFrame:CGRectMake(0, 0, self.webView.bounds.size.width, self.webView.bounds.size.height)];
+//
+//        [UIView commitAnimations];
+//    }
 }
 
 -(void)configureView:(BOOL)override
@@ -423,16 +423,16 @@
 - (void)shouldLoadLesson:(id)sender lesson:(Lesson *)lesson
 {
     // Make sure we don't reload the same lesson
-    if ((self.lesson.lessonIndexPath.section != lesson.lessonIndexPath.section) || 
-        (self.lesson.lessonIndexPath.row != lesson.lessonIndexPath.row))   
-    {
+//    if ((self.lesson.lessonIndexPath.section != lesson.lessonIndexPath.section) || 
+//        (self.lesson.lessonIndexPath.row != lesson.lessonIndexPath.row))   
+//    {
         NSInteger currentPathValue = self.lesson.lessonIndexPath.section + self.lesson.lessonIndexPath.row;
         NSInteger newPathValue = lesson.lessonIndexPath.section + lesson.lessonIndexPath.row;
         
         self.isLoadingPrevious = (newPathValue < currentPathValue);
         
         [self loadLesson:lesson];
-    }
+//    }
     
     [self hideTableView];
 }
@@ -659,8 +659,8 @@
 	if ([self.loadedHtml length] < 1)
 	{
 		// In order to prevent pushing the web view around, let's set the bar to be translucent
-        if([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPad)
-            [self.navigationController.navigationBar setTranslucent:YES];
+//        if([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPad)
+//            [self.navigationController.navigationBar setTranslucent:YES];
 
 		// Load the html as a string from the file system
 		NSString *path = [[NSBundle mainBundle] pathForResource:@"Web/index" ofType:@"html"];
@@ -668,24 +668,24 @@
 
 		self.loadedHtml = html;
         
-        // Make ipad specific configs
-        if (!self.isExercise && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        {
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            
-            // Get associated lesson data
-            NSInteger chapterNumber = [defaults integerForKey:SAVED_CHAPTER_KEY];
-            NSInteger lessonNumber = [defaults integerForKey:SAVED_LESSON_KEY];
-            
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lessonNumber inSection:chapterNumber];
-            
-            // Get associated lesson data
-            Lesson *lesson = [self.chapterView lessonWithIndexPath:indexPath];
-            self.lesson = lesson;
-            
-            self.chapterView.cameFromIndexPath = indexPath;
-            [self.chapterView.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
-        }
+//        // Make ipad specific configs
+//        if (!self.isExercise && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+//        {
+//            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//
+//            // Get associated lesson data
+//            NSInteger chapterNumber = [defaults integerForKey:SAVED_CHAPTER_KEY];
+//            NSInteger lessonNumber = [defaults integerForKey:SAVED_LESSON_KEY];
+//
+//            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lessonNumber inSection:chapterNumber];
+//
+//            // Get associated lesson data
+//            Lesson *lesson = [self.chapterView lessonWithIndexPath:indexPath];
+//            self.lesson = lesson;
+//
+//            self.chapterView.cameFromIndexPath = indexPath;
+//            [self.chapterView.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+//        }
 	}
     
 	// Hide webview until content is loaded
@@ -766,34 +766,40 @@
 {
     [super viewDidLoad];
     
+    if (self.lesson == nil) {
+        self.lesson = self.lessonRepository.chapters[0].lessons[0];
+    }
+    
+    self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    self.navigationItem.leftItemsSupplementBackButton = YES;
     
     // Custom initialization
     self.optionsView.delegate = self;
     self.readingView.delegate = self;
     
     // iPad specific initialization
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-    {
-        self.chapterView.delegate = self;
-        self.chapterView.chapters = self.lessonRepository.chapters;
-        self.chapterView.bookmarkedChapters = (NSMutableArray *)[self.lessonRepository lessonsWithBookmarks:self.bookmarkRepository];
-        self.chapterView.parentNavigationItem = self.navigationItem;
-        self.chapterView.parentNavigationController = self.navigationController;
-        [self.chapterView configureView];
-        
-        UIImage *toolBarImage = [UIImage imageNamed:@"bg-toolbar.png"];
-        
-        if ([self.filterToolbar respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)])
-        {
-            //iOS 5
-            [self.filterToolbar setBackgroundImage:toolBarImage forToolbarPosition:0 barMetrics:0];
-        }
-        else
-        {
-            //iOS 4
-            [self.filterToolbar insertSubview:[[UIImageView alloc] initWithImage:toolBarImage] atIndex:0];
-        }
-    }
+//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+//    {
+//        self.chapterView.delegate = self;
+//        self.chapterView.chapters = self.lessonRepository.chapters;
+//        self.chapterView.bookmarkedChapters = (NSMutableArray *)[self.lessonRepository lessonsWithBookmarks:self.bookmarkRepository];
+//        self.chapterView.parentNavigationItem = self.navigationItem;
+//        self.chapterView.parentNavigationController = self.navigationController;
+//        [self.chapterView configureView];
+//
+//        UIImage *toolBarImage = [UIImage imageNamed:@"bg-toolbar.png"];
+//
+//        if ([self.filterToolbar respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)])
+//        {
+//            //iOS 5
+//            [self.filterToolbar setBackgroundImage:toolBarImage forToolbarPosition:0 barMetrics:0];
+//        }
+//        else
+//        {
+//            //iOS 4
+//            [self.filterToolbar insertSubview:[[UIImageView alloc] initWithImage:toolBarImage] atIndex:0];
+//        }
+//    }
     
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight)];
     UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft)];

@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+@class Lesson;
 
 @interface Chapter : NSObject
 
 @property (nonatomic) NSInteger chapterNumber;
 @property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSArray *lessons;
+@property (nonatomic, copy) NSArray<Lesson *> *lessons;
 
 -(id)initWithChapterNumber:(NSInteger)chapterNumber;
 

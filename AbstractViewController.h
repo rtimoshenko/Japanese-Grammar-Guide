@@ -22,7 +22,7 @@ typedef enum
 
 -(LessonRepository *)lessonRepository;
 -(BookmarkRepository *)bookmarkRepository;
-@property (nonatomic, strong) id appDelegate;
+@property (nonatomic, strong) AppDelegate *appDelegate;
 
 -(NSString *)deviceNibWithName:(NSString *)nibName;
 

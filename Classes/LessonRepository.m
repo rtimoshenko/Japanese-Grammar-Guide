@@ -37,7 +37,7 @@
 	return self;
 }
 
--(NSArray *)chapters
+-(NSArray<Chapter *> *)chapters
 {
 	if (!_chapters)
     {
