@@ -31,6 +31,97 @@
 
 @implementation LessonViewController
 
+#pragma mark - View lifecycle
+
+
+
+-(void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    if (self.lesson == nil) {
+        // TODO: Temporary until we re-introduce support for last viewed lesson
+        self.lesson = self.lessonRepository.chapters[0].lessons[0];
+    }
+    
+    self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    self.navigationItem.leftItemsSupplementBackButton = YES;
+    
+    // Custom initialization
+    self.optionsView.delegate = self;
+    self.readingView.delegate = self;
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
+
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress)];
+    
+    tap.delegate = self;
+    doubleTap.delegate = self;
+    doubleTap.numberOfTapsRequired = 2;
+
+    [self.webView addGestureRecognizer:tap];
+    [self.webView addGestureRecognizer:doubleTap];
+    
+    for (id subview in self.webView.subviews)
+    {
+        if ([[subview class] isSubclassOfClass: [UIScrollView class]])
+        {
+            ((UIScrollView *)subview).scrollsToTop = YES;
+            ((UIScrollView *)subview).bounces = NO;
+            ((UIScrollView *)subview).delegate = self;
+        }
+    }
+    
+    
+    UIImage *toolBarImage = [UIImage imageNamed:@"bg-toolbar.png"];
+    UIImage *toolBarImageLight = [UIImage imageNamed:@"bg-toolbar-light.png"];
+    
+    if ([self.optionsToolbar respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)])
+    {
+        //iOS 5
+        [self.optionsToolbar setBackgroundImage:toolBarImage forToolbarPosition:0 barMetrics:0];
+        [self.moreOptionsToolbar setBackgroundImage:toolBarImageLight forToolbarPosition:0 barMetrics:0];
+    }
+    else
+    {
+        //iOS 4
+        [self.optionsToolbar insertSubview:[[UIImageView alloc] initWithImage:toolBarImage] atIndex:0];
+        [self.moreOptionsToolbar insertSubview:[[UIImageView alloc] initWithImage:toolBarImageLight] atIndex:0];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self setupView];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    // Invalidate options timer, otherwise we'll get an exc_bad_access
+    // when the view disappears
+    [self.optionsView.timer invalidate];
+}
+
+- (void)viewDidUnload
+{
+    self.webView.delegate = nil;
+    
+    [self setKanaPlayer:nil];
+    [self setShowTableButton:nil];
+    [self setFilterControl:nil];
+    [self setFilterToolbar:nil];
+    [self setLoadingView:nil];
+    [self setReadingView:nil];
+    [self setKanaView:nil];
+    [self setChapterView:nil];
+    [self setMoreOptionsToolbar:nil];
+    [self setOptionsToolbar:nil];
+    [self setOptionsView:nil];
+    [self setWebView:nil];
+    
+    [super viewDidUnload];
+}
+
 // Loads lesson without modifying current view
 -(void)loadLesson:(Lesson *)lesson
 {   
@@ -312,31 +403,6 @@
     {
         [self showMenuAfterDelay];
     }
-}
-
--(void)handleSwipeLeft
-{
-//    if (self.hasLoadedRootWebView && self.tableIsVisible && !self.isExercise)
-//        [self hideTableView];
-//    else if (self.hasLoadedRootWebView && !self.tableIsVisible && !self.isExercise && !self.showTableButton.hidden)
-//        [self hideOptionsWithNav];
-}
-
--(void)handleSwipeRight
-{
-////    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-////    {
-//        [self.navigationController popViewControllerAnimated:YES];
-////    }
-////    else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad && self.isExercise)
-////    {
-////        [self.navigationController popViewControllerAnimated:YES];
-////    }
-//    //else
-//        if (self.hasLoadedRootWebView && !self.tableIsVisible && !self.isExercise)
-//    {
-//        [self showTableView];
-//    }
 }
 
 -(void)didShowOptionsView:(id)sender didShow:(BOOL)didShow
@@ -694,134 +760,5 @@ navigationType:(UIWebViewNavigationType)navigationType
         [self showOptions];
     }
 }
-
-#pragma mark - View lifecycle
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [self setupView];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    // Invalidate options timer, otherwise we'll get an exc_bad_access
-    // when the view disappears
-    [self.optionsView.timer invalidate];
-}
-
--(void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    if (self.lesson == nil) {
-        // TODO: Temporary until we re-introduce support for last viewed lesson
-        self.lesson = self.lessonRepository.chapters[0].lessons[0];
-    }
-    
-    self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-    self.navigationItem.leftItemsSupplementBackButton = YES;
-    
-    // Custom initialization
-    self.optionsView.delegate = self;
-    self.readingView.delegate = self;
-    
-    // iPad specific initialization
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-//    {
-//        self.chapterView.delegate = self;
-//        self.chapterView.chapters = self.lessonRepository.chapters;
-//        self.chapterView.bookmarkedChapters = (NSMutableArray *)[self.lessonRepository lessonsWithBookmarks:self.bookmarkRepository];
-//        self.chapterView.parentNavigationItem = self.navigationItem;
-//        self.chapterView.parentNavigationController = self.navigationController;
-//        [self.chapterView configureView];
-//
-//        UIImage *toolBarImage = [UIImage imageNamed:@"bg-toolbar.png"];
-//
-//        if ([self.filterToolbar respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)])
-//        {
-//            //iOS 5
-//            [self.filterToolbar setBackgroundImage:toolBarImage forToolbarPosition:0 barMetrics:0];
-//        }
-//        else
-//        {
-//            //iOS 4
-//            [self.filterToolbar insertSubview:[[UIImageView alloc] initWithImage:toolBarImage] atIndex:0];
-//        }
-//    }
-    
-    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight)];
-    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft)];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
-    //UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress)];
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress)];
-    
-    //[doubleTap requireGestureRecognizerToFail:tap];
-    
-    tap.delegate = self;
-    doubleTap.delegate = self;
-    doubleTap.numberOfTapsRequired = 2;
-    swipeRight.delegate = self;
-    swipeLeft.delegate = self;
-    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-    swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-
-    [self.webView addGestureRecognizer:swipeRight];
-    [self.webView addGestureRecognizer:swipeLeft];
-    [self.webView addGestureRecognizer:tap];
-    [self.webView addGestureRecognizer:doubleTap];
-    
-    for (id subview in self.webView.subviews)
-    {
-        if ([[subview class] isSubclassOfClass: [UIScrollView class]])
-        {
-            ((UIScrollView *)subview).scrollsToTop = YES;
-            ((UIScrollView *)subview).bounces = NO;
-            ((UIScrollView *)subview).delegate = self;
-            
-            // Convenience methods cause crash in iOS4
-            //self.webView.scrollView.scrollsToTop = YES;
-            //self.webView.scrollView.bounces = NO;
-            //self.webView.scrollView.delegate = self;
-        }
-    }
-
- 
-    UIImage *toolBarImage = [UIImage imageNamed:@"bg-toolbar.png"];
-    UIImage *toolBarImageLight = [UIImage imageNamed:@"bg-toolbar-light.png"];
-
-    if ([self.optionsToolbar respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)])
-    {
-        //iOS 5
-        [self.optionsToolbar setBackgroundImage:toolBarImage forToolbarPosition:0 barMetrics:0];
-        [self.moreOptionsToolbar setBackgroundImage:toolBarImageLight forToolbarPosition:0 barMetrics:0];
-    }
-    else
-    {
-        //iOS 4
-        [self.optionsToolbar insertSubview:[[UIImageView alloc] initWithImage:toolBarImage] atIndex:0];
-        [self.moreOptionsToolbar insertSubview:[[UIImageView alloc] initWithImage:toolBarImageLight] atIndex:0];
-    }
-}
-
-- (void)viewDidUnload
-{
-	self.webView.delegate = nil;
-
-    [self setKanaPlayer:nil];
-    [self setShowTableButton:nil];
-    [self setFilterControl:nil];
-    [self setFilterToolbar:nil];
-    [self setLoadingView:nil];
-    [self setReadingView:nil];
-	[self setKanaView:nil];
-    [self setChapterView:nil];
-	[self setMoreOptionsToolbar:nil];
-	[self setOptionsToolbar:nil];
-    [self setOptionsView:nil];
-	[self setWebView:nil];
-
-    [super viewDidUnload];
-}
-
 
 @end

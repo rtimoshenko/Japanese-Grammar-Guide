@@ -31,6 +31,7 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
 @property (strong, nonatomic) UIBarButtonItem *doneBarButton;
 @property (strong, nonatomic) UIBarButtonItem *editBarButton;
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
+@property (nonatomic, assign) BOOL collapseDetailViewController;
 
 @end
 
@@ -41,6 +42,8 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
     [super viewDidLoad];
 
     self.splitViewController.delegate = self;
+    self.splitViewController.presentsWithGesture = YES;
+    self.collapseDetailViewController = YES;
     
     // Set a defualt selected index path
     self.selectedIndexPath = [NSIndexPath indexPathForRow:0
@@ -174,13 +177,18 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.selectedIndexPath = indexPath;
+    self.collapseDetailViewController = NO;
     Lesson *lesson = self.chapters[indexPath.section].lessons[indexPath.row];
     
-    [self performSegueWithIdentifier:@"show_lesson" sender:lesson];
+    [self loadLesson:lesson];
     
     if (self.splitViewController.isCollapsed) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
+    [UIView animateWithDuration:0.3 animations:^{
+        self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+    }];
+    
 }
 
 // Override to support conditional editing of the table view.
@@ -346,7 +354,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 - (BOOL)splitViewController:(UISplitViewController *)splitViewController
 collapseSecondaryViewController:(UIViewController *)secondaryViewController
   ontoPrimaryViewController:(UIViewController *)primaryViewController {
-    return YES;
+    return self.collapseDetailViewController;
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
@@ -390,12 +398,27 @@ collapseSecondaryViewController:(UIViewController *)secondaryViewController
 
 #pragma mark - Navigation
 
+- (void)loadLesson:(Lesson *)lesson {
+    
+    UINavigationController *nav;
+    
+    if (self.splitViewController.viewControllers.count > 1) {
+        nav = self.splitViewController.viewControllers[1];
+        LessonViewController *lessonViewController = (LessonViewController *)nav.topViewController;
+        lessonViewController.dataProvider = self.dataProvider;
+        lessonViewController.delegate = self;
+        [lessonViewController shouldLoadLesson:nil lesson:lesson];
+    } else {
+        [self performSegueWithIdentifier:@"show_lesson" sender:lesson];
+    }
+}
+
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender {
-    
+
     if ([segue.identifier isEqualToString:@"show_lesson"]) {
-        
+
         UINavigationController *nav = segue.destinationViewController;
         LessonViewController *lessonViewController = (LessonViewController *)nav.topViewController;
         lessonViewController.dataProvider = self.dataProvider;
