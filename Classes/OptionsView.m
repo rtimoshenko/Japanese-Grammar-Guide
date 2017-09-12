@@ -10,42 +10,13 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface OptionsView()
+
 @property (nonatomic) BOOL isVisible;
 @property (nonatomic) BOOL isVisibleExtraOptions;
--(void)toggleButton:(UIBarButtonItem *)button shouldEnable:(BOOL)enable;
--(void)showExtraOptions;
--(void)hideExtraOptions;
--(void)setDisplayTimer;
+
 @end
 
 @implementation OptionsView
-
-
-@synthesize extraOptionsView = _extraOptionsView;
-@synthesize optionsButton = _optionsButton;
-@synthesize previousButton = _previousButton;
-@synthesize nextButton = _nextButton;
-@synthesize bookmarkButton = _bookmarkButton;
-
-@synthesize nightModeButton = _nightModeButton;
-@synthesize brightnessSlider = _brightnessSlider;
-@synthesize fontIncreaseButton = _fontIncreaseButton;
-@synthesize fontDecreaseButton = _fontDecreaseButton;
-
-@synthesize isVisible = _isVisible;
-@synthesize isVisibleExtraOptions = _isVisibleExtraOptions;
-@synthesize delegate = _delegate;
-@synthesize hasNext = _hasNext;
-@synthesize hasPrevious = _hasPrevious;
-@synthesize hasBookmark = _hasBookmark;
-@synthesize isNightMode = _isNightMode;
-@synthesize shouldIgnoreHideMessage = _shouldIgnoreHideMessage;
-@synthesize fontSize = _fontSize;
-@synthesize brightness = _brightness;
-@synthesize timer = _displayTimer;
-
-
-
 
 -(void)show
 {
@@ -158,7 +129,7 @@
         [self.brightnessSlider setValue:[[UIScreen mainScreen] brightness]];
         
         // UIButton tint color only available in iOS5
-        self.optionsButton.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
+        //self.optionsButton.tintColor = [less colorWithRed:1 green:1 blue:1 alpha:0.3];
     }
 }
 
@@ -179,7 +150,7 @@
     self.shouldIgnoreHideMessage = NO;
 	self.isVisibleExtraOptions = NO;
 
-    self.optionsButton.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
+    //self.optionsButton.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
     
     [self setDisplayTimer];
 }
@@ -283,9 +254,6 @@
 	[self toggleButton:self.fontDecreaseButton shouldEnable:(newSize > MIN_FONT_SIZE)];
 }
 
-
-
-
 -(void)shouldUseNightMode:(BOOL)nightMode
 {
     self.isNightMode = nightMode;
@@ -312,12 +280,12 @@
 -(void)toggleButton:(UIBarButtonItem *)button shouldEnable:(BOOL)enable
 {
     button.enabled = enable;
-    
-    if (enable) {
-        button.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
-    } else {
-        button.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
-    }
+//
+//    if (enable) {
+//        button.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
+//    } else {
+//        button.tintColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.3];
+//    }
 }
 
 

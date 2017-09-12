@@ -33,7 +33,9 @@
 
 #pragma mark - View lifecycle
 
-
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
 
 -(void)viewDidLoad
 {
@@ -73,21 +75,13 @@
     }
     
     
-    UIImage *toolBarImage = [UIImage imageNamed:@"bg-toolbar.png"];
-    UIImage *toolBarImageLight = [UIImage imageNamed:@"bg-toolbar-light.png"];
-    
-    if ([self.optionsToolbar respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)])
-    {
-        //iOS 5
-        [self.optionsToolbar setBackgroundImage:toolBarImage forToolbarPosition:0 barMetrics:0];
-        [self.moreOptionsToolbar setBackgroundImage:toolBarImageLight forToolbarPosition:0 barMetrics:0];
-    }
-    else
-    {
-        //iOS 4
-        [self.optionsToolbar insertSubview:[[UIImageView alloc] initWithImage:toolBarImage] atIndex:0];
-        [self.moreOptionsToolbar insertSubview:[[UIImageView alloc] initWithImage:toolBarImageLight] atIndex:0];
-    }
+//    UIImage *toolBarImage = [UIImage imageNamed:@"bg-toolbar.png"];
+//    UIImage *toolBarImageLight = [UIImage imageNamed:@"bg-toolbar-light.png"];
+//
+
+//        [self.optionsToolbar setBackgroundImage:toolBarImage forToolbarPosition:0 barMetrics:0];
+//        [self.moreOptionsToolbar setBackgroundImage:toolBarImageLight forToolbarPosition:0 barMetrics:0];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -339,24 +333,6 @@
 -(void)showNav
 {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    //self.navIsVisible = YES;
-    
-    // Show table button
-//    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad &&
-//        !self.isExercise &&
-//        self.showTableButton.hidden)
-//    {
-//        CATransition *transition = [CATransition animation];
-//
-//        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-//        transition.duration = 0.25;
-//        transition.type = kCATransitionPush;
-//        transition.subtype = kCATransitionFromLeft;
-//        transition.delegate = self;
-//
-//        [self.showTableButton.layer addAnimation:transition forKey:nil];
-//        self.showTableButton.hidden = NO;
-//    }
 }
 
 -(void)hideNav

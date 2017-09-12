@@ -15,6 +15,9 @@
 
 @synthesize moreAppsButton = _moreAppsButton;
 
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

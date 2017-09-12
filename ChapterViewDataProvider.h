@@ -23,8 +23,10 @@ typedef NS_ENUM(NSInteger, ChapterViewDisplayType) {
 
 - (instancetype)initWithChapters:(NSArray<Chapter *> *)chapters;
 - (BOOL)isLessonBookmarked:(Lesson *)lesson;
+
 - (Lesson *)getNextLessonForLesson:(Lesson *)lesson;
 - (BOOL)hasNextLessonForLesson:(Lesson *)lesson;
+
 - (Lesson *)getPreviousLessonForLesson:(Lesson *)lesson;
 - (BOOL)hasPreviousLessonForLesson:(Lesson *)lesson;
 

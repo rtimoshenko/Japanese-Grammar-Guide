@@ -38,6 +38,10 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
 
 @implementation ChapterTableViewController
 
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -170,8 +174,7 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     Chapter *chapter = self.chapters[section];
-    Lesson *lesson = chapter.lessons[0];
-    return lesson.slug;
+    return chapter.title;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -242,6 +245,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     // Cancel ongoing search action
     self.searchController.active = NO;
+    self.selectedIndexPath = nil;
     
     // Fetch the appropriate chapters to display
     self.chapters = [self.dataProvider chaptersForSearchTerm:nil
@@ -358,6 +362,7 @@ collapseSecondaryViewController:(UIViewController *)secondaryViewController
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    
     // Get the screen
     UIScreen *screen = [UIScreen mainScreen];
     

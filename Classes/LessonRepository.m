@@ -175,6 +175,7 @@
             {
                 Chapter *chapter = [[Chapter alloc] initWithChapterNumber:c.chapterNumber];
                 chapter.lessons = lessons;
+                chapter.title = c.title;
                 [chapters addObject:chapter];
             }
         }

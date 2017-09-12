@@ -28,9 +28,9 @@
         
         if ([self getTargetChaptersFor:ChapterViewDisplayTypeBookmarks].count == 0) {
             
-            for (Lesson *lesson in self.allChapters[5].lessons) {
-                [self.bookmarkRepository saveBookmarkForLesson:lesson];
-            }
+//            for (Lesson *lesson in self.allChapters[5].lessons) {
+//                [self.bookmarkRepository saveBookmarkForLesson:lesson];
+//            }
             // TODO: disabled for testing
 //
 //            if (![self.chapterView lessonNumberIsBookmarked:self.lesson.lessonNumber])
@@ -120,6 +120,10 @@
     return ([self getPreviousLessonForLesson:lesson] != nil);
 }
 
+- (NSString *)getChapterTitleForChapter:(Chapter *)chapter {
+    return @"";
+}
+
 #pragma mark - Private Helpers
 
 - (NSArray<Chapter *> *)getTargetChaptersFor:(ChapterViewDisplayType)type {
@@ -157,6 +161,7 @@
         {
             Chapter *chapterResult = [[Chapter alloc] initWithChapterNumber:chapter.chapterNumber];
             chapterResult.lessons = lessonResults;
+            chapterResult.title = chapter.title;
             
             [chapterResults addObject:chapterResult];
         }

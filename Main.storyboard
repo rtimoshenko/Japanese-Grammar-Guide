@@ -147,7 +147,7 @@
                             <view hidden="YES" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="98Z-2X-V3Z" userLabel="More Options">
                                 <rect key="frame" x="0.0" y="579" width="375" height="44"/>
                                 <subviews>
-                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="MLn-Lk-fjX">
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MLn-Lk-fjX">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -193,7 +193,7 @@
                             <view hidden="YES" alpha="0.0" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="VRL-1h-PSv" customClass="OptionsView">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <subviews>
-                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="vN4-L6-NUp">
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vN4-L6-NUp">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <items>
@@ -451,7 +451,7 @@ www.ronaldtimoshenko.com</string>
                     <toolbarItems>
                         <barButtonItem style="plain" id="n7G-ZC-Efm">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Ggo-do-vR1">
-                                <rect key="frame" x="16" y="7.5" width="343" height="29"/>
+                                <rect key="frame" x="16" y="7" width="343" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="All Lessons"/>
@@ -485,7 +485,7 @@ www.ronaldtimoshenko.com</string>
         <!--Split View Controller-->
         <scene sceneID="Jlr-xK-fnC">
             <objects>
-                <splitViewController id="qhR-R1-zbF" sceneMemberID="viewController">
+                <splitViewController automaticallyAdjustsScrollViewInsets="NO" id="qhR-R1-zbF" customClass="TKSplitViewController" sceneMemberID="viewController">
                     <connections>
                         <segue destination="o6m-2x-tX1" kind="relationship" relationship="masterViewController" id="zDg-E6-IwT"/>
                         <segue destination="gQq-8X-9ri" kind="relationship" relationship="detailViewController" id="Rvg-Tf-779"/>
@@ -512,6 +512,6 @@ www.ronaldtimoshenko.com</string>
         <image name="logo.png" width="558" height="399"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Rvg-Tf-779"/>
+        <segue reference="38n-ld-cG6"/>
     </inferredMetricsTieBreakers>
 </document>
