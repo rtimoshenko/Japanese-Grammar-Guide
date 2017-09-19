@@ -111,7 +111,6 @@
 		7885C5FD1198AD1000BD7FE6 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7885C5FC1198AD1000BD7FE6 /* libsqlite3.0.dylib */; };
 		78D35D2211BFEBF9001EB431 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D35D2111BFEBF9001EB431 /* AVFoundation.framework */; };
 		F4796C661F4B394900394AF7 /* Launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4796C651F4B394900394AF7 /* Launch.storyboard */; };
-		F4B4CFAD1F681E5E00FBFA01 /* TKSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B4CFAC1F681E5E00FBFA01 /* TKSplitViewController.m */; };
 		F4E7E30D1F49D480006C79DC /* ChapterViewDataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E7E30C1F49D480006C79DC /* ChapterViewDataProvider.m */; };
 		F4F0828C1F3E2D6B00991D10 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4F0828B1F3E2D6B00991D10 /* Main.storyboard */; };
 		F4F082AF1F3F100F00991D10 /* ChapterTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F082AE1F3F100F00991D10 /* ChapterTableViewController.m */; };
@@ -245,8 +244,6 @@
 		7885C5FC1198AD1000BD7FE6 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		78D35D2111BFEBF9001EB431 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F4796C651F4B394900394AF7 /* Launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Launch.storyboard; sourceTree = "<group>"; };
-		F4B4CFAB1F681E5E00FBFA01 /* TKSplitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TKSplitViewController.h; sourceTree = "<group>"; };
-		F4B4CFAC1F681E5E00FBFA01 /* TKSplitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TKSplitViewController.m; sourceTree = "<group>"; };
 		F4E7E30B1F49D480006C79DC /* ChapterViewDataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChapterViewDataProvider.h; sourceTree = "<group>"; };
 		F4E7E30C1F49D480006C79DC /* ChapterViewDataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChapterViewDataProvider.m; sourceTree = "<group>"; };
 		F4F0828B1F3E2D6B00991D10 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -287,8 +284,6 @@
 				04C9AE4714D50B0D0094F0AD /* LessonViewController.m */,
 				F4F082AD1F3F100F00991D10 /* ChapterTableViewController.h */,
 				F4F082AE1F3F100F00991D10 /* ChapterTableViewController.m */,
-				F4B4CFAB1F681E5E00FBFA01 /* TKSplitViewController.h */,
-				F4B4CFAC1F681E5E00FBFA01 /* TKSplitViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -672,7 +667,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4B4CFAD1F681E5E00FBFA01 /* TKSplitViewController.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				0478D55614C7D9E2006D20DA /* LessonRepository.m in Sources */,

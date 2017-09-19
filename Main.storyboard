@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13189.4" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qhR-R1-zbF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qhR-R1-zbF">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13165.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -485,7 +485,7 @@ www.ronaldtimoshenko.com</string>
         <!--Split View Controller-->
         <scene sceneID="Jlr-xK-fnC">
             <objects>
-                <splitViewController automaticallyAdjustsScrollViewInsets="NO" id="qhR-R1-zbF" customClass="TKSplitViewController" sceneMemberID="viewController">
+                <splitViewController automaticallyAdjustsScrollViewInsets="NO" id="qhR-R1-zbF" sceneMemberID="viewController">
                     <connections>
                         <segue destination="o6m-2x-tX1" kind="relationship" relationship="masterViewController" id="zDg-E6-IwT"/>
                         <segue destination="gQq-8X-9ri" kind="relationship" relationship="detailViewController" id="Rvg-Tf-779"/>
@@ -512,6 +512,6 @@ www.ronaldtimoshenko.com</string>
         <image name="logo.png" width="558" height="399"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="38n-ld-cG6"/>
+        <segue reference="Rvg-Tf-779"/>
     </inferredMetricsTieBreakers>
 </document>
