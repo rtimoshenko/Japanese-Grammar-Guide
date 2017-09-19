@@ -38,10 +38,6 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
 
 @implementation ChapterTableViewController
 
-- (BOOL)prefersStatusBarHidden {
-    return NO;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -56,12 +52,19 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
     self.searchController = [[UISearchController alloc] initWithSearchResultsController: nil];
     
     self.searchController.searchResultsUpdater = self;
-    self.searchController.dimsBackgroundDuringPresentation = false;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    
+    if (@available(iOS 11, *)) {
+        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAlways;
+        self.navigationItem.searchController = self.searchController;
+    } else {
+        self.tableView.tableHeaderView = self.searchController.searchBar;
+    }
     
     self.edgesForExtendedLayout = UIRectEdgeNone;
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
-    self.definesPresentationContext = true;
-    self.tableView.tableHeaderView = self.searchController.searchBar;
+    self.definesPresentationContext = YES;
+    
     
     self.dataProvider = [[ChapterViewDataProvider alloc] initWithChapters:self.lessonRepository.chapters];
     
