@@ -191,10 +191,10 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
     if (self.splitViewController.isCollapsed) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
+    
     [UIView animateWithDuration:0.3 animations:^{
         self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
     }];
-    
 }
 
 // Override to support conditional editing of the table view.
@@ -279,9 +279,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 #pragma mark - View Manipulation
 
 - (void)hideToolBar:(BOOL)hide {
-    [UIView animateWithDuration:0.3 animations:^{
-        [self.navigationController setToolbarHidden:hide];
-    }];
+    
+    [self.navigationController setToolbarHidden:hide animated:YES];
 }
 
 - (void)setupRightNavButtonForState:(TableviewViewMode)state {
@@ -365,6 +364,13 @@ collapseSecondaryViewController:(UIViewController *)secondaryViewController
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    
+    self.chapterTypeSegmentedControl.frame = CGRectMake(0,
+                                                        0,
+                                                        CGRectGetWidth(self.navigationController.toolbar.frame) - 32,
+                                                        CGRectGetHeight(self.navigationController.toolbar.frame) - 16);
+
+    self.chapterTypeSegmentedControl.center = self.navigationController.toolbar.center;
     
     // Get the screen
     UIScreen *screen = [UIScreen mainScreen];

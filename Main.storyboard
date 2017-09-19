@@ -449,10 +449,11 @@ www.ronaldtimoshenko.com</string>
                         <viewLayoutGuide key="safeArea" id="BQh-Po-aHC"/>
                     </view>
                     <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="khh-yZ-ZaC"/>
                         <barButtonItem style="plain" id="n7G-ZC-Efm">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Ggo-do-vR1">
                                 <rect key="frame" x="16" y="7" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                 <segments>
                                     <segment title="All Lessons"/>
                                     <segment title="Bookmarks"/>
@@ -462,6 +463,7 @@ www.ronaldtimoshenko.com</string>
                                 </connections>
                             </segmentedControl>
                         </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Ox2-Lr-WgJ"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="omd-Iy-KEe">
                         <barButtonItem key="leftBarButtonItem" title="About" id="d1n-zH-e3d">
@@ -512,6 +514,6 @@ www.ronaldtimoshenko.com</string>
         <image name="logo.png" width="558" height="399"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Rvg-Tf-779"/>
+        <segue reference="38n-ld-cG6"/>
     </inferredMetricsTieBreakers>
 </document>
