@@ -94,7 +94,6 @@
 		04C9AE4814D50B0D0094F0AD /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C9AE4214D50B0D0094F0AD /* AboutViewController.m */; };
 		04C9AE4914D50B0D0094F0AD /* AbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C9AE4314D50B0D0094F0AD /* AbstractViewController.m */; };
 		04C9AE4A14D50B0D0094F0AD /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C9AE4414D50B0D0094F0AD /* BaseViewController.m */; };
-		04C9AE4B14D50B0D0094F0AD /* ChapterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C9AE4514D50B0D0094F0AD /* ChapterViewController.m */; };
 		04C9AE4D14D50B0D0094F0AD /* LessonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C9AE4714D50B0D0094F0AD /* LessonViewController.m */; };
 		04C9AE5814D50B680094F0AD /* Bookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C9AE5314D50B680094F0AD /* Bookmark.m */; };
 		04C9AE5914D50B680094F0AD /* Chapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C9AE5414D50B680094F0AD /* Chapter.m */; };
@@ -679,7 +678,6 @@
 				04C9AE4814D50B0D0094F0AD /* AboutViewController.m in Sources */,
 				04C9AE4914D50B0D0094F0AD /* AbstractViewController.m in Sources */,
 				04C9AE4A14D50B0D0094F0AD /* BaseViewController.m in Sources */,
-				04C9AE4B14D50B0D0094F0AD /* ChapterViewController.m in Sources */,
 				04C9AE4D14D50B0D0094F0AD /* LessonViewController.m in Sources */,
 				04C9AE5814D50B680094F0AD /* Bookmark.m in Sources */,
 				04C9AE5914D50B680094F0AD /* Chapter.m in Sources */,

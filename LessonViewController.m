@@ -223,7 +223,7 @@
         {
             [self.optionsView setHasPrevious:[self.dataProvider hasPreviousLessonForLesson:self.lesson]];
             [self.optionsView setHasNext:[self.dataProvider hasNextLessonForLesson:self.lesson]];
-            [self.optionsView setHasBookmark:[self.chapterView lessonNumberIsBookmarked:self.lesson.lessonNumber]];
+            [self.optionsView setHasBookmark:[self.dataProvider hasBookmarkForLesson:self.lesson]];
         }
     }
 }
@@ -287,8 +287,9 @@
 
 -(void)doSaveBookmark:(id)sender
 {
-	if (![self.chapterView lessonNumberIsBookmarked:self.lesson.lessonNumber])
+    if (![self.dataProvider hasBookmarkForLesson:self.lesson]) {
 		[self.bookmarkRepository saveBookmarkForLesson:self.lesson];
+    }
 }
 
 -(void)doLoadNext:(id)sender
@@ -503,50 +504,14 @@
 - (void)shouldLoadLesson:(id)sender lesson:(Lesson *)lesson
 {
     // Make sure we don't reload the same lesson
-//    if ((self.lesson.lessonIndexPath.section != lesson.lessonIndexPath.section) ||
-//        (self.lesson.lessonIndexPath.row != lesson.lessonIndexPath.row))
-//    {
-        NSInteger currentPathValue = self.lesson.lessonIndexPath.section + self.lesson.lessonIndexPath.row;
-        NSInteger newPathValue = lesson.lessonIndexPath.section + lesson.lessonIndexPath.row;
-    
-        self.isLoadingPrevious = (newPathValue < currentPathValue);
-    
+    if (self.lesson == nil || self.lesson.lessonNumber != lesson.lessonNumber) {
         [self loadLesson:lesson];
-//    }
-    
-    [self hideTableView];
+    }
 }
 
-// Empty methods to satisfy chapterview delegate
--(void)didBeginSearch:(id)sender{}
--(void)didCancelSearch:(id)sender{}
-
--(void)didDeleteBookmark:(id)sender
-{
-    [self.optionsView setHasBookmark:[self.chapterView lessonNumberIsBookmarked:self.lesson.lessonNumber]];
-}
-
-
--(IBAction)didSelectFilter:(id)sender
-{
-    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+- (void)refreshBookmark {
     
-    self.chapterView.displayType = segmentedControl.selectedSegmentIndex;
-    
-    // Make sure we're always using the latest set of bookmarks
-    if (segmentedControl.selectedSegmentIndex == kBookmarks)
-        self.chapterView.bookmarkedChapters = (NSMutableArray *)[self.lessonRepository lessonsWithBookmarks:self.bookmarkRepository];
-    
-    [self.chapterView resetSearchField];
-    
-    // Make sure we show the navigation bar, since we could have come
-    // back from a search results view
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
-
--(IBAction)didPressShowTableButton:(id)sender
-{
-    [self showTableView];
+    [self.optionsView setHasBookmark:[self.dataProvider hasBookmarkForLesson:self.lesson]];
 }
 
 

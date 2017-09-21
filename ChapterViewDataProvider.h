@@ -30,6 +30,8 @@ typedef NS_ENUM(NSInteger, ChapterViewDisplayType) {
 - (Lesson *)getPreviousLessonForLesson:(Lesson *)lesson;
 - (BOOL)hasPreviousLessonForLesson:(Lesson *)lesson;
 
+- (BOOL)hasBookmarkForLesson:(Lesson *)lesson;
+
 - (NSArray<Chapter *> *)chaptersForSearchTerm:(NSString *)searchTerm
                                   displayType:(ChapterViewDisplayType)displayType;
 - (NSArray<Chapter *> *)chaptersAfterDeletingBookmarkedLesson:(Lesson *)lesson

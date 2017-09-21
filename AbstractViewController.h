@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+@class ChapterViewDataProvider;
 
 #define SAVED_CHAPTER_KEY @"SavedChapterKey"
 #define SAVED_LESSON_KEY @"SavedLessonKey"
@@ -20,10 +21,10 @@ typedef enum
 
 @interface AbstractViewController : UIViewController
 
--(LessonRepository *)lessonRepository;
--(BookmarkRepository *)bookmarkRepository;
 @property (nonatomic, strong) AppDelegate *appDelegate;
 
--(NSString *)deviceNibWithName:(NSString *)nibName;
+- (LessonRepository *)lessonRepository;
+- (BookmarkRepository *)bookmarkRepository;
+- (ChapterViewDataProvider *)dataProvider;
 
 @end

@@ -24,7 +24,6 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
 
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSArray<Chapter *>* chapters;
-@property (nonatomic, strong) ChapterViewDataProvider *dataProvider;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *noResultsLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *chapterTypeSegmentedControl;
@@ -64,10 +63,6 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
     self.edgesForExtendedLayout = UIRectEdgeNone;
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
     self.definesPresentationContext = YES;
-    
-    
-    self.dataProvider = [[ChapterViewDataProvider alloc] initWithChapters:self.lessonRepository.chapters];
-    
     self.title = NSLocalizedString(@"文法ガイド", @"文法ガイド");
     
     [self updateCopyForContext:[self getSelectedDisplayType]];
@@ -75,6 +70,8 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
                                                  displayType:[self getSelectedDisplayType]];
     
     [self createBarButtons];
+    
+    [self getLessonViewControllerIfExists];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -240,6 +237,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [self showEmptyState:(self.chapters.count < 1)];
     [self setupRightNavButtonForState:[self getSelectedViewMode]];
+    
+    LessonViewController *lessonViewController = [self getLessonViewControllerIfExists];
+    [lessonViewController refreshBookmark];
 }
 
 #pragma mark - Actions
@@ -413,17 +413,23 @@ collapseSecondaryViewController:(UIViewController *)secondaryViewController
 #pragma mark - Navigation
 
 - (void)loadLesson:(Lesson *)lesson {
+    LessonViewController *lessonViewController = [self getLessonViewControllerIfExists];
     
-    UINavigationController *nav;
-    
-    if (self.splitViewController.viewControllers.count > 1) {
-        nav = self.splitViewController.viewControllers[1];
-        LessonViewController *lessonViewController = (LessonViewController *)nav.topViewController;
-        lessonViewController.dataProvider = self.dataProvider;
-        lessonViewController.delegate = self;
+    if (lessonViewController != nil) {
         [lessonViewController shouldLoadLesson:nil lesson:lesson];
     } else {
         [self performSegueWithIdentifier:@"show_lesson" sender:lesson];
+    }
+}
+
+- (LessonViewController *)getLessonViewControllerIfExists {
+    if (self.splitViewController.viewControllers.count > 1) {
+        UINavigationController *nav = self.splitViewController.viewControllers[1];
+        LessonViewController *lessonViewController = (LessonViewController *)nav.topViewController;
+        lessonViewController.delegate = self;
+        return lessonViewController;
+    } else {
+        return nil;
     }
 }
 
@@ -435,7 +441,6 @@ collapseSecondaryViewController:(UIViewController *)secondaryViewController
 
         UINavigationController *nav = segue.destinationViewController;
         LessonViewController *lessonViewController = (LessonViewController *)nav.topViewController;
-        lessonViewController.dataProvider = self.dataProvider;
         lessonViewController.delegate = self;
         [lessonViewController shouldLoadLesson:nil lesson:(Lesson *)sender];
     } else if ([segue.identifier isEqualToString:@"show_about"]) {

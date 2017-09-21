@@ -11,19 +11,15 @@
 #import "AppDelegate.h"
 #import "LessonViewController.h"
 #import "ChapterViewController.h"
-
+#import "ChapterViewDataProvider.h"
 
 @implementation AppDelegate
-
-@synthesize lessonRepository = _lessonRepository;
-@synthesize bookmarkRepository = _bookmarkRepository;
-@synthesize window = _window;
-@synthesize navigationController = _navigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.lessonRepository = [[LessonRepository alloc] init];
     self.bookmarkRepository = [[BookmarkRepository alloc] init];
+    self.dataProvider = [[ChapterViewDataProvider alloc] initWithChapters:self.lessonRepository.chapters];
     return YES;
 }
 

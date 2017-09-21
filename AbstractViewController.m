@@ -11,13 +11,15 @@
 #import "LessonRepository.h"
 #import "BookmarkRepository.h"
 #import "Lesson.h"
-
-@class UIViewController;
-
+#import "ChapterViewDataProvider.h"
 
 @implementation AbstractViewController
 
-@synthesize appDelegate = _appDelegate;
+-(void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
 
 -(LessonRepository *)lessonRepository
 {
@@ -29,6 +31,10 @@
     return [self.appDelegate bookmarkRepository];
 }
 
+- (ChapterViewDataProvider *)dataProvider
+{
+    return [self.appDelegate dataProvider];
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,34 +48,6 @@
     return self;
 }
 
--(NSString *)deviceNibWithName:(NSString *)nibName
-{   
-    // Override point for customization after application launch.
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-        nibName = [nibName stringByAppendingString:@"_iPhone"];
-    else
-        nibName = [nibName stringByAppendingString:@"_iPad"];
-    
-    return nibName;
-}
-
-/*-(LessonRepository *)lessonRepository
-{
-	if (!_lessonRepository)
-		_lessonRepository = [[LessonRepository alloc] init];
-    
-	return _lessonRepository;
-}
-
--(BookmarkRepository *)bookmarkRepository
-{
-	if (!_bookmarkRepository)
-		_bookmarkRepository = [[BookmarkRepository alloc] init];
-    
-	return _bookmarkRepository;
-}*/
-
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -77,17 +55,6 @@
         return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
     
 	return YES;
-}
-
--(void)viewDidLoad
-{
-    self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [super viewDidLoad];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
 }
 
 @end

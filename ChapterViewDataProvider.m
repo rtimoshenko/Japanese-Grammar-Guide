@@ -124,6 +124,18 @@
     return @"";
 }
 
+- (BOOL)hasBookmarkForLesson:(Lesson *)lesson {
+    
+    NSArray<Bookmark *> *bookmarks = [self.bookmarkRepository bookmarks];
+    for (Bookmark *bookmark in bookmarks) {
+        if (bookmark.lessonNumber == lesson.lessonNumber) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 #pragma mark - Private Helpers
 
 - (NSArray<Chapter *> *)getTargetChaptersFor:(ChapterViewDisplayType)type {

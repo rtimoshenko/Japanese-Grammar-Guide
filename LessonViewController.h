@@ -13,7 +13,6 @@
 #import "KanaView.h"
 #import "ChapterView.h"
 @class Lesson;
-@class ChapterViewDataProvider;
 
 @protocol LessonViewControllerDelegate
 -(void)didChangeToLessonAt:(NSIndexPath *)indexPath;
@@ -34,12 +33,11 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *moreOptionsToolbar;
 @property (weak, nonatomic) IBOutlet UIToolbar *filterToolbar;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *filterControl;
-@property (nonatomic, strong) ChapterViewDataProvider *dataProvider;
 @property (nonatomic, weak) id<LessonViewControllerDelegate> delegate;
 
--(IBAction)didSelectFilter:(id)sender;
--(IBAction)didPressShowTableButton:(id)sender;
 - (void)shouldLoadLesson:(id)sender lesson:(Lesson *)lesson;
+
+- (void)refreshBookmark;
 
 @property (strong, nonatomic) Lesson *lesson;
 @property (strong, nonatomic) Lesson *exercise;
