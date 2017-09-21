@@ -111,6 +111,7 @@
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
 		7885C5FD1198AD1000BD7FE6 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7885C5FC1198AD1000BD7FE6 /* libsqlite3.0.dylib */; };
 		78D35D2211BFEBF9001EB431 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78D35D2111BFEBF9001EB431 /* AVFoundation.framework */; };
+		F4895FF51F73C2C5006AEC19 /* AppIcons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F4895FF41F73C2C5006AEC19 /* AppIcons.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -240,6 +241,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7885C5FC1198AD1000BD7FE6 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		78D35D2111BFEBF9001EB431 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		F4895FF41F73C2C5006AEC19 /* AppIcons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcons.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -455,6 +457,7 @@
 				0420EA1314C536C9002ADDA7 /* Learning_Japanese-Info.plist */,
 				28A0AB4B0D9B1048005BE974 /* Learning_Japanese_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				F4895FF41F73C2C5006AEC19 /* AppIcons.xcassets */,
 			);
 			name = "Supporting FIles";
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				04C9447914F5E205003842A3 /* icon-bookmark-cell.png in Resources */,
 				04C9447A14F5E205003842A3 /* icon-bookmark-cell@2x.png in Resources */,
 				04C9447B14F5E205003842A3 /* icon-bookmark-exercise-cell.png in Resources */,
+				F4895FF51F73C2C5006AEC19 /* AppIcons.xcassets in Resources */,
 				04C9447C14F5E205003842A3 /* icon-bookmark-exercise-cell@2x.png in Resources */,
 				04C9447D14F5E205003842A3 /* icon-exercise-cell.png in Resources */,
 				04C9447E14F5E205003842A3 /* icon-exercise-cell@2x.png in Resources */,
