@@ -54,7 +54,6 @@ typedef NS_ENUM(NSUInteger, TableviewViewMode) {
     self.searchController.dimsBackgroundDuringPresentation = NO;
     
     if (@available(iOS 11, *)) {
-        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAlways;
         self.navigationItem.searchController = self.searchController;
     } else {
         self.tableView.tableHeaderView = self.searchController.searchBar;
