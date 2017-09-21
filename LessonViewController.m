@@ -231,6 +231,7 @@
 {
     if (![self.dataProvider hasBookmarkForLesson:self.lesson]) {
         [self.bookmarkRepository saveBookmarkForLesson:self.lesson];
+        [self.delegate didBookmarkLesson:self.lesson];
     }
 }
 
@@ -537,7 +538,7 @@ navigationType:(UIWebViewNavigationType)navigationType
 
 
 
-#pragma mark UIScrollView Delegate Methods
+#pragma mark - UIScrollView Delegate Methods
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {

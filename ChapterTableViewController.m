@@ -411,6 +411,10 @@ collapseSecondaryViewController:(UIViewController *)secondaryViewController
     }
 }
 
+- (void)didBookmarkLesson:(Lesson *)lesson {
+    [self.tableView reloadRowsAtIndexPaths:@[lesson.lessonIndexPath] withRowAnimation:UITableViewRowAnimationNone];
+}
+
 - (void) didActivateNightMode:(BOOL)active {
     // TODO:
 }
