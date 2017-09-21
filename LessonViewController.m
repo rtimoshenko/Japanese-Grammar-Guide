@@ -38,26 +38,21 @@
     [super viewDidLoad];
     
     if (self.lesson == nil) {
-        // TODO: Temporary until we re-introduce support for last viewed lesson
-        self.lesson = self.lessonRepository.chapters[0].lessons[0];
+        [self shouldLoadLesson:nil lesson:[self.dataProvider getLastViewedLesson]];
     }
-    
-    self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-    self.navigationItem.leftItemsSupplementBackButton = YES;
-    
+
+    if (!self.isExercise) {
+        self.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        self.navigationItem.leftItemsSupplementBackButton = YES;
+    }
     // Custom initialization
     self.optionsView.delegate = self;
     self.readingView.delegate = self;
     
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
-
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress)];
-    
-    tap.delegate = self;
-    doubleTap.delegate = self;
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
     doubleTap.numberOfTapsRequired = 2;
-
-    [self.webView addGestureRecognizer:tap];
+    doubleTap.delegate = self;
+    
     [self.webView addGestureRecognizer:doubleTap];
     
     for (id subview in self.webView.subviews)
@@ -70,18 +65,6 @@
         }
     }
     
-    
-//    UIImage *toolBarImage = [UIImage imageNamed:@"bg-toolbar.png"];
-//    UIImage *toolBarImageLight = [UIImage imageNamed:@"bg-toolbar-light.png"];
-//
-
-//        [self.optionsToolbar setBackgroundImage:toolBarImage forToolbarPosition:0 barMetrics:0];
-//        [self.moreOptionsToolbar setBackgroundImage:toolBarImageLight forToolbarPosition:0 barMetrics:0];
-
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
     [self setupView];
 }
 
@@ -103,7 +86,6 @@
     [self setLoadingView:nil];
     [self setReadingView:nil];
     [self setKanaView:nil];
-    [self setChapterView:nil];
     [self setMoreOptionsToolbar:nil];
     [self setOptionsToolbar:nil];
     [self setOptionsView:nil];
@@ -116,115 +98,78 @@
 -(void)loadLesson:(Lesson *)lesson
 {   
     self.lesson = lesson;
-	self.hasLoadedRootWebView = NO;
-
-	[self hideOptionsWithNav:NO];
+    self.hasLoadedRootWebView = NO;
+    
+    [self hideOptionsWithNav:NO];
     [self setupView];
+    [self.delegate didChangeToLessonAt:lesson.lessonIndexPath];
     
 }
 
 - (void)setupView {
- 
+    
     [self.optionsView.brightnessSlider setValue:[[UIScreen mainScreen] brightness]];
-    
-    // Since users could bookmark and then navigate away (and then come back), let's update
-    self.chapterView.bookmarkedChapters = (NSMutableArray *)[self.lessonRepository lessonsWithBookmarks:self.bookmarkRepository];
-    
+        
     // Did we already load the resource?
     if ([self.loadedHtml length] < 1)
     {
-        // In order to prevent pushing the web view around, let's set the bar to be translucent
-        //        if([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomPad)
-        //            [self.navigationController.navigationBar setTranslucent:YES];
         
         // Load the html as a string from the file system
         NSString *path = [[NSBundle mainBundle] pathForResource:@"Web/index" ofType:@"html"];
         NSString *html = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
         
-        NSLog(@"%@", html);
-        
-        
         self.loadedHtml = html;
-        
-        //        // Make ipad specific configs
-        //        if (!self.isExercise && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-        //        {
-        //            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        //
-        //            // Get associated lesson data
-        //            NSInteger chapterNumber = [defaults integerForKey:SAVED_CHAPTER_KEY];
-        //            NSInteger lessonNumber = [defaults integerForKey:SAVED_LESSON_KEY];
-        //
-        //            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:lessonNumber inSection:chapterNumber];
-        //
-        //            // Get associated lesson data
-        //            Lesson *lesson = [self.chapterView lessonWithIndexPath:indexPath];
-        //            self.lesson = lesson;
-        //
-        //            self.chapterView.cameFromIndexPath = indexPath;
-        //            [self.chapterView.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
-        //        }
     }
     
-    // Hide webview until content is loaded
-    if (self.hasLoadedRootWebView)
+    // Make sure we always show the navigation bar so that users
+    // can abort loading at any time
+    [self showNav];
+    NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+    NSString *parsedHtml = [[NSString alloc] initWithFormat:self.loadedHtml, self.lesson.slug, self.lesson.lessonContent];
+    
+    [self.dataProvider saveCurrentLesson:self.lesson];
+    
+    
+    self.title = self.lesson.slug;
+    self.exercise = self.lesson.exercise;
+    
+    
+    CATransition *transition = [CATransition animation];
+    
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.duration = 0.25;
+    transition.type = kCATransitionFade;
+    transition.delegate = self;
+    
+    if (self.isLoadingPrevious)
+        transition.subtype = kCATransitionFromBottom;
+    else
+        transition.subtype = kCATransitionFromTop;
+    
+    
+    
+    [self.webView.layer addAnimation:transition forKey:nil];
+    
+    self.webView.hidden = YES;
+    self.loadingView.hidden = NO;
+    
+    // Tell the web view to load it
+    [self.webView stopLoading];
+    [self.webView loadHTMLString:parsedHtml baseURL:baseURL];
+    
+    
+    // If this is an exercise, let's disable various options
+    if (self.isExercise)
     {
-        [self showMenuAfterDelay];
+        [self.optionsView setHasBookmark:YES];
+        [self.optionsView setHasNext:NO];
+        [self.optionsView setHasPrevious:NO];
     }
     else
     {
-        // Make sure we always show the navigation bar so that users
-        // can abort loading at any time
-        [self showNav];
-        NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-        NSString *parsedHtml = [[NSString alloc] initWithFormat:self.loadedHtml, self.lesson.slug, self.lesson.lessonContent];
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        
-        [defaults setInteger:self.chapterView.cameFromIndexPath.section forKey:SAVED_CHAPTER_KEY];
-        [defaults setInteger:self.chapterView.cameFromIndexPath.row forKey:SAVED_LESSON_KEY];
-        [defaults synchronize];
-        
-        self.title = self.lesson.slug;
-        self.exercise = self.lesson.exercise;
-        
-        
-        CATransition *transition = [CATransition animation];
-        
-        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        transition.duration = 0.25;
-        transition.type = kCATransitionFade;
-        transition.delegate = self;
-        
-        if (self.isLoadingPrevious)
-            transition.subtype = kCATransitionFromBottom;
-        else
-            transition.subtype = kCATransitionFromTop;
-        
-        
-        
-        [self.webView.layer addAnimation:transition forKey:nil];
-        
-        self.webView.hidden = YES;
-        self.loadingView.hidden = NO;
-        
-        // Tell the web view to load it
-        [self.webView stopLoading];
-        [self.webView loadHTMLString:parsedHtml baseURL:baseURL];
-        
-        
-        // If this is an exercise, let's disable various options
-        if (self.isExercise)
-        {
-            [self.optionsView setHasBookmark:YES];
-            [self.optionsView setHasNext:NO];
-            [self.optionsView setHasPrevious:NO];
-        }
-        else
-        {
-            [self.optionsView setHasPrevious:[self.dataProvider hasPreviousLessonForLesson:self.lesson]];
-            [self.optionsView setHasNext:[self.dataProvider hasNextLessonForLesson:self.lesson]];
-            [self.optionsView setHasBookmark:[self.dataProvider hasBookmarkForLesson:self.lesson]];
-        }
+        [self.optionsView setHasPrevious:[self.dataProvider hasPreviousLessonForLesson:self.lesson]];
+        [self.optionsView setHasNext:[self.dataProvider hasNextLessonForLesson:self.lesson]];
+        [self.optionsView setHasBookmark:[self.dataProvider hasBookmarkForLesson:self.lesson]];
     }
 }
 
@@ -238,10 +183,9 @@
     
     lessonViewController.lesson = exercise;
     lessonViewController.isExercise = YES;
-	lessonViewController.hasLoadedRootWebView = NO;
+    lessonViewController.hasLoadedRootWebView = NO;
     
     [self.navigationController showViewController:lessonViewController sender:nil];
-    //[self showNav];
 }
 
 #pragma mark - Option Menu View Controller Delegate
@@ -249,9 +193,9 @@
 -(void)shouldUseNightMode:(id)sender useNightMode:(BOOL)nightMode
 {
     NSString *nightModeString = @"false";
-
+    
     if (!nightMode)
-	{
+    {
         for (id subview in self.webView.subviews)
         {
             if ([[subview class] isSubclassOfClass: [UIScrollView class]])
@@ -259,9 +203,9 @@
         }
         
         self.webView.backgroundColor = [UIColor whiteColor];
-	}
-	else
-	{
+    }
+    else
+    {
         nightModeString = @"true";
         
         for (id subview in self.webView.subviews)
@@ -271,8 +215,8 @@
         }
         
         self.webView.backgroundColor = [UIColor blackColor];
-	}
-
+    }
+    
     [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"setNightMode(%@);", nightModeString]];
     
     [self.delegate didActivateNightMode:nightMode];
@@ -286,20 +230,20 @@
 -(void)doSaveBookmark:(id)sender
 {
     if (![self.dataProvider hasBookmarkForLesson:self.lesson]) {
-		[self.bookmarkRepository saveBookmarkForLesson:self.lesson];
+        [self.bookmarkRepository saveBookmarkForLesson:self.lesson];
     }
 }
 
 -(void)doLoadNext:(id)sender
 {
     Lesson *lesson = [self.dataProvider getNextLessonForLesson:self.lesson];
- 
+    
     // Just in case we get a nil result, let's make sure we only load valid lessons
     if (lesson)
     {
         self.isLoadingPrevious = NO;
         [self loadLesson:lesson];
-        [self.delegate didChangeToLessonAt:lesson.lessonIndexPath];
+        
     }
 }
 
@@ -313,15 +257,6 @@
         self.isLoadingPrevious = YES;
         [self loadLesson:lesson];
         [self.delegate didChangeToLessonAt:lesson.lessonIndexPath];
-    }
-}
-
--(void)showMenuAfterDelay
-{
-    if (!self.tableIsVisible)
-    {
-        [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(showNav) userInfo:nil repeats:NO];
-        [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(showOptions) userInfo:nil repeats:NO];
     }
 }
 
@@ -356,23 +291,12 @@
     return YES;
 }
 
--(void)handleTap
+- (void)handleDoubleTap
 {
-    if (self.hasLoadedRootWebView && self.navIsVisible)
-    {
+    if (self.hasLoadedRootWebView && !self.navigationController.isNavigationBarHidden) {
         [self hideOptionsWithNav];
-    }
-    else if (self.hasLoadedRootWebView && self.tableIsVisible)
-    {
-        [self hideTableView];
-    }
-}
-
--(void)handleLongPress
-{
-    if (self.hasLoadedRootWebView && !self.navIsVisible)
-    {
-        [self showMenuAfterDelay];
+    } else {
+        [self showOptions];
     }
 }
 
@@ -394,47 +318,6 @@
         self.shouldIgnoreShowMessage = NO;
 }
 
--(void)showTableView
-{
-//    if (!self.tableIsVisible && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-//    {
-//        self.optionsView.shouldIgnoreHideMessage = NO;
-//        [self hideOptionsWithNav:YES];
-//        self.tableIsVisible = YES;
-//        self.chapterView.alpha = 1.0f;
-//
-//        [self.chapterView reloadAsNightTheme:self.chapterView.isNightMode];
-//
-//        [UIView beginAnimations:nil context:nil];
-//        [UIView setAnimationDuration:0.35f];
-//        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
-//
-//        [self.chapterView setFrame:CGRectMake(0, 0, self.chapterView.bounds.size.width, self.chapterView.bounds.size.height)];
-//        [self.webView setFrame:CGRectMake(self.chapterView.bounds.size.width + 1, 0, self.webView.bounds.size.width, self.webView.bounds.size.height)];
-//
-//        [UIView commitAnimations];
-//    }
-}
-
--(void)hideTableView
-{
-//    if (self.tableIsVisible && [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-//    {
-//        self.tableIsVisible = NO;
-//        [self.chapterView didHideChapterView:YES];
-//
-//        [UIView beginAnimations:nil context:nil];
-//        [UIView setAnimationDuration:0.35f];
-//        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:YES];
-//
-//        //self.chapterView.hidden = YES;
-//        [self.chapterView setFrame:CGRectMake(self.chapterView.bounds.size.width * -1, 0, self.chapterView.bounds.size.width, self.chapterView.bounds.size.height)];
-//        [self.webView setFrame:CGRectMake(0, 0, self.webView.bounds.size.width, self.webView.bounds.size.height)];
-//
-//        [UIView commitAnimations];
-//    }
-}
-
 -(void)configureView:(BOOL)override
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -447,20 +330,18 @@
     
     [self.optionsView shouldUseNightMode:useNightMode];
     [self.optionsView doChangeFontSize:fontSize];
-
-	if (self.exercise)
-		[self.webView stringByEvaluatingJavaScriptFromString:@"addExerciseMessage();"];
-
-	[self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"prepareDocument(%@);", isIpad]];
-
-	// Make sure we do all our processing before we show the view, in order to avoid DOM flashes, etc.
-	[NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(showWebView) userInfo:nil repeats:NO];
+    
+    if (self.exercise)
+        [self.webView stringByEvaluatingJavaScriptFromString:@"addExerciseMessage();"];
+    
+    [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"prepareDocument(%@);", isIpad]];
+    
+    // Make sure we do all our processing before we show the view, in order to avoid DOM flashes, etc.
+    [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(showWebView) userInfo:nil repeats:NO];
 }
 
 -(void)showWebView
 {
-    //self.webView.alpha = 1.0f;
-    
     CATransition *transition = [CATransition animation];
     
     transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -468,19 +349,17 @@
     transition.type = kCATransitionFade;
     transition.delegate = self;
     
-    if (self.isLoadingPrevious)
+    if (self.isLoadingPrevious) {
         transition.subtype = kCATransitionFromBottom;
-    else
+    } else {
         transition.subtype = kCATransitionFromTop;
-    
-    
+    }
     
     [self.webView.layer addAnimation:transition forKey:nil];
     self.webView.hidden = NO;
     self.loadingView.hidden = YES;
-
+    
     [self showOptions];
-	//[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(hideOptionsWithNav) userInfo:nil repeats:NO];
 }
 
 
@@ -488,12 +367,12 @@
 
 -(void)showKana:(NSString *)kana syllabary:(Syllabary)syllabary
 {
-	[self.kanaView showKana:kana syllabary:syllabary];
+    [self.kanaView showKana:kana syllabary:syllabary];
 }
 
 -(void)hideKana
 {
-	[self.kanaView hide];
+    [self.kanaView hide];
 }
 
 
@@ -521,7 +400,7 @@
     // let's make sure we run our set up only once
     if (!self.hasLoadedRootWebView)
     {
-		self.hasLoadedRootWebView = YES;
+        self.hasLoadedRootWebView = YES;
         //[self hideTableView];
         [self configureView:NO];
     }
@@ -531,18 +410,18 @@
 shouldStartLoadWithRequest:(NSURLRequest *)request
 navigationType:(UIWebViewNavigationType)navigationType
 {
-	// Since webview calls are unpredictable, let's try to catch exceptions
+    // Since webview calls are unpredictable, let's try to catch exceptions
     @try
-	{
+    {
         self.shouldIgnoreShowMessage = YES;
-		NSString *urlString = [[request URL] absoluteString];
-    
-		if(navigationType == UIWebViewNavigationTypeLinkClicked)
-		{
-			NSRange httpRange = [urlString rangeOfString:@"http"];
-			NSRange wwwRange = [urlString rangeOfString:@"www"];
-		
-			// [urlString hasPrefix:@"somefakeurlscheme://video-ended"]
+        NSString *urlString = [[request URL] absoluteString];
+        
+        if(navigationType == UIWebViewNavigationTypeLinkClicked)
+        {
+            NSRange httpRange = [urlString rangeOfString:@"http"];
+            NSRange wwwRange = [urlString rangeOfString:@"www"];
+            
+            // [urlString hasPrefix:@"somefakeurlscheme://video-ended"]
             if ((wwwRange.length != NSNotFound && wwwRange.length > 0) || (httpRange.length != NSNotFound && httpRange.length > 0))
             {
                 // Save request
@@ -578,35 +457,35 @@ navigationType:(UIWebViewNavigationType)navigationType
                 [self presentViewController:alert
                                    animated:YES
                                  completion:nil];
+                
+                return NO;
+            }
+        }
+        else if (navigationType == UIWebViewNavigationTypeOther)
+        {
+            NSRange stringRange = [urlString rangeOfString:@"ljapp"];
             
-				return NO;
-			}
-		}
-		else if (navigationType == UIWebViewNavigationTypeOther)
-		{
-			NSRange stringRange = [urlString rangeOfString:@"ljapp"];
-        
-			if (stringRange.length != NSNotFound && stringRange.length > 0)
-			{
-				NSArray *components = [urlString componentsSeparatedByString:@":"];
-            
-				if ([components count] > 1)
-				{
+            if (stringRange.length != NSNotFound && stringRange.length > 0)
+            {
+                NSArray *components = [urlString componentsSeparatedByString:@":"];
+                
+                if ([components count] > 1)
+                {
                     NSString *action = (NSString *)[components objectAtIndex:1];
-					if ([action isEqualToString:@"reading"])
-					{
-						NSString *definitionString = [(NSString *)[components objectAtIndex:2] stringByRemovingPercentEncoding];
-						NSString *readingString = [(NSString *)[components objectAtIndex:3] stringByRemovingPercentEncoding];
-						NSString *characterString = [(NSString *)[components objectAtIndex:4] stringByRemovingPercentEncoding];
-                    
-						[self.readingView setLabelText:[NSString stringWithFormat:@"%@ \n %@ \n %@", characterString, readingString, definitionString]];
-						[self.readingView show];
-                    
-						return NO;
-					}
-					else if ([action isEqualToString:@"playclip"])
-					{
-						[self.readingView setLabelText:@"Playing Audio"];
+                    if ([action isEqualToString:@"reading"])
+                    {
+                        NSString *definitionString = [(NSString *)[components objectAtIndex:2] stringByRemovingPercentEncoding];
+                        NSString *readingString = [(NSString *)[components objectAtIndex:3] stringByRemovingPercentEncoding];
+                        NSString *characterString = [(NSString *)[components objectAtIndex:4] stringByRemovingPercentEncoding];
+                        
+                        [self.readingView setLabelText:[NSString stringWithFormat:@"%@ \n %@ \n %@", characterString, readingString, definitionString]];
+                        [self.readingView show];
+                        
+                        return NO;
+                    }
+                    else if ([action isEqualToString:@"playclip"])
+                    {
+                        [self.readingView setLabelText:@"Playing Audio"];
                         
                         NSString *characterString = [(NSString *)[components objectAtIndex:2] stringByRemovingPercentEncoding];
                         NSString *audioPath = [NSString stringWithFormat:@"%@/Audio/%@.mp3", [[NSBundle mainBundle] resourcePath], characterString];
@@ -621,39 +500,39 @@ navigationType:(UIWebViewNavigationType)navigationType
                         [self.kanaPlayer play];
                         self.kanaPlayer.volume = 1.0;
                         
-						[self.readingView show];
+                        [self.readingView show];
                         
-						return NO;
-					}
-					else if ([action isEqualToString:@"hiragana"])
-					{
-						[self showKana:(NSString *)[components objectAtIndex:2] syllabary:kHiragana];
+                        return NO;
+                    }
+                    else if ([action isEqualToString:@"hiragana"])
+                    {
+                        [self showKana:(NSString *)[components objectAtIndex:2] syllabary:kHiragana];
                         
-						return NO;
-					}
-					else if ([action isEqualToString:@"katakana"])
-					{
-						[self showKana:(NSString *)[components objectAtIndex:2] syllabary:kKatakana];
+                        return NO;
+                    }
+                    else if ([action isEqualToString:@"katakana"])
+                    {
+                        [self showKana:(NSString *)[components objectAtIndex:2] syllabary:kKatakana];
                         
-						return NO;
-					}
-					else if ([action isEqualToString:@"exercise"])
-					{
-						[self loadExercise];
+                        return NO;
+                    }
+                    else if ([action isEqualToString:@"exercise"])
+                    {
+                        [self loadExercise];
                         
-						return NO;
-					}
-				}
-			}
-		}
-
+                        return NO;
+                    }
+                }
+            }
+        }
+        
     }
     @catch (NSException *exception)
-	{
+    {
         NSLog(@"Exception - %@",[exception description]);
     }
-	
-	return YES;
+    
+    return YES;
 }
 
 
@@ -681,7 +560,7 @@ navigationType:(UIWebViewNavigationType)navigationType
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView
-                 willDecelerate:(BOOL)decelerate {
+                  willDecelerate:(BOOL)decelerate {
     
     if (scrollView.contentOffset.y > self.self.lastContentOffset) {
         if (scrollView.contentSize.height - scrollView.contentOffset.y < 800) {

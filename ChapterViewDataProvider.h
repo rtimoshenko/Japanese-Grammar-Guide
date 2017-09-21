@@ -11,6 +11,9 @@ typedef NS_ENUM(NSInteger, ChapterViewDisplayType) {
     ChapterViewDisplayTypeBookmarks = 1
 };
 
+#define SAVED_CHAPTER_KEY @"SavedChapterKey"
+#define SAVED_LESSON_KEY @"SavedLessonKey"
+
 #import <Foundation/Foundation.h>
 
 @class Chapter;
@@ -36,5 +39,8 @@ typedef NS_ENUM(NSInteger, ChapterViewDisplayType) {
                                   displayType:(ChapterViewDisplayType)displayType;
 - (NSArray<Chapter *> *)chaptersAfterDeletingBookmarkedLesson:(Lesson *)lesson
                                                  searchString:(NSString *)searchString;
+
+- (void)saveCurrentLesson:(Lesson *)lesson;
+- (Lesson *)getLastViewedLesson;
 
 @end

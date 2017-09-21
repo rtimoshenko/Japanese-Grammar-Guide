@@ -59,11 +59,6 @@
 		04729998165B30FC00E008CA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04729997165B30FC00E008CA /* Default-568h@2x.png */; };
 		0478D55614C7D9E2006D20DA /* LessonRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478D55514C7D9E2006D20DA /* LessonRepository.m */; };
 		0478D56314C7DD2B006D20DA /* BookmarkRepository.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478D56214C7DD2B006D20DA /* BookmarkRepository.m */; };
-		0478D56B14C7DDB8006D20DA /* LessonViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0478D56914C7DDB8006D20DA /* LessonViewController_iPhone.xib */; };
-		0478D56D14C7DDFA006D20DA /* LessonViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0478D56C14C7DDFA006D20DA /* LessonViewController_iPad.xib */; };
-		0478D57214C7DE53006D20DA /* ChapterViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0478D57014C7DE53006D20DA /* ChapterViewController_iPhone.xib */; };
-		0478D57714C7DF30006D20DA /* AboutViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0478D57514C7DF30006D20DA /* AboutViewController_iPhone.xib */; };
-		0478D57914C7DF75006D20DA /* AboutViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0478D57814C7DF75006D20DA /* AboutViewController_iPad.xib */; };
 		049082CB1512E8D500E6D666 /* icon-arrow-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 049082C91512E8D500E6D666 /* icon-arrow-left.png */; };
 		049082CC1512E8D500E6D666 /* icon-arrow-left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 049082CA1512E8D500E6D666 /* icon-arrow-left@2x.png */; };
 		04A3A6AB14E21576005A2CFA /* bg-navbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 04A3A6A014E21576005A2CFA /* bg-navbar.png */; };
@@ -175,11 +170,6 @@
 		0478D55514C7D9E2006D20DA /* LessonRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LessonRepository.m; path = Classes/LessonRepository.m; sourceTree = "<group>"; };
 		0478D56114C7DD2B006D20DA /* BookmarkRepository.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookmarkRepository.h; path = Classes/BookmarkRepository.h; sourceTree = "<group>"; };
 		0478D56214C7DD2B006D20DA /* BookmarkRepository.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookmarkRepository.m; path = Classes/BookmarkRepository.m; sourceTree = "<group>"; };
-		0478D56914C7DDB8006D20DA /* LessonViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LessonViewController_iPhone.xib; sourceTree = "<group>"; };
-		0478D56C14C7DDFA006D20DA /* LessonViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LessonViewController_iPad.xib; sourceTree = "<group>"; };
-		0478D57014C7DE53006D20DA /* ChapterViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChapterViewController_iPhone.xib; sourceTree = "<group>"; };
-		0478D57514C7DF30006D20DA /* AboutViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPhone.xib; sourceTree = "<group>"; };
-		0478D57814C7DF75006D20DA /* AboutViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController_iPad.xib; sourceTree = "<group>"; };
 		049082C91512E8D500E6D666 /* icon-arrow-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-arrow-left.png"; sourceTree = "<group>"; };
 		049082CA1512E8D500E6D666 /* icon-arrow-left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-arrow-left@2x.png"; sourceTree = "<group>"; };
 		04A3A6A014E21576005A2CFA /* bg-navbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-navbar.png"; sourceTree = "<group>"; };
@@ -210,12 +200,10 @@
 		04C9AE3C14D50B0D0094F0AD /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		04C9AE3D14D50B0D0094F0AD /* AbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractViewController.h; sourceTree = "<group>"; };
 		04C9AE3E14D50B0D0094F0AD /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
-		04C9AE3F14D50B0D0094F0AD /* ChapterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChapterViewController.h; sourceTree = "<group>"; };
 		04C9AE4114D50B0D0094F0AD /* LessonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessonViewController.h; sourceTree = "<group>"; };
 		04C9AE4214D50B0D0094F0AD /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		04C9AE4314D50B0D0094F0AD /* AbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractViewController.m; sourceTree = "<group>"; };
 		04C9AE4414D50B0D0094F0AD /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
-		04C9AE4514D50B0D0094F0AD /* ChapterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChapterViewController.m; sourceTree = "<group>"; };
 		04C9AE4714D50B0D0094F0AD /* LessonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessonViewController.m; sourceTree = "<group>"; };
 		04C9AE4E14D50B680094F0AD /* Bookmark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Bookmark.h; path = Classes/Bookmark.h; sourceTree = "<group>"; };
 		04C9AE4F14D50B680094F0AD /* Chapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Chapter.h; path = Classes/Chapter.h; sourceTree = "<group>"; };
@@ -228,8 +216,6 @@
 		04C9AE5614D50B680094F0AD /* OptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsView.m; path = Classes/OptionsView.m; sourceTree = "<group>"; };
 		04C9AE5714D50B680094F0AD /* ReadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReadingView.m; path = Classes/ReadingView.m; sourceTree = "<group>"; };
 		04C9AE6714D5187C0094F0AD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		04CD7DB814DCDC9900D6E65B /* ChapterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChapterView.h; path = Classes/ChapterView.h; sourceTree = "<group>"; };
-		04CD7DB914DCDC9900D6E65B /* ChapterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChapterView.m; path = Classes/ChapterView.m; sourceTree = "<group>"; };
 		04D4534914D8E81700BCA9B2 /* KanaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KanaView.h; path = Classes/KanaView.h; sourceTree = "<group>"; };
 		04D4534A14D8E81700BCA9B2 /* KanaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KanaView.m; path = Classes/KanaView.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -277,8 +263,6 @@
 				04C9AE4314D50B0D0094F0AD /* AbstractViewController.m */,
 				04C9AE3E14D50B0D0094F0AD /* BaseViewController.h */,
 				04C9AE4414D50B0D0094F0AD /* BaseViewController.m */,
-				04C9AE3F14D50B0D0094F0AD /* ChapterViewController.h */,
-				04C9AE4514D50B0D0094F0AD /* ChapterViewController.m */,
 				04C9AE4114D50B0D0094F0AD /* LessonViewController.h */,
 				04C9AE4714D50B0D0094F0AD /* LessonViewController.m */,
 				F4F082AD1F3F100F00991D10 /* ChapterTableViewController.h */,
@@ -287,20 +271,10 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		0420EA0414C52BAB002ADDA7 /* iPad */ = {
-			isa = PBXGroup;
-			children = (
-				0478D57814C7DF75006D20DA /* AboutViewController_iPad.xib */,
-				0478D56C14C7DDFA006D20DA /* LessonViewController_iPad.xib */,
-			);
-			name = iPad;
-			sourceTree = "<group>";
-		};
 		0420EA0B14C5313C002ADDA7 /* Learning Japanese */ = {
 			isa = PBXGroup;
 			children = (
 				F4F0828A1F3E2D5000991D10 /* Story Board */,
-				04D4543B14D8F32000BCA9B2 /* Views */,
 				04C9AE3B14D50A1F0094F0AD /* Helpers */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
@@ -340,8 +314,6 @@
 		04C9AE3B14D50A1F0094F0AD /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				04CD7DB814DCDC9900D6E65B /* ChapterView.h */,
-				04CD7DB914DCDC9900D6E65B /* ChapterView.m */,
 				04D4534914D8E81700BCA9B2 /* KanaView.h */,
 				04D4534A14D8E81700BCA9B2 /* KanaView.m */,
 				04C9AE5114D50B680094F0AD /* OptionsView.h */,
@@ -420,15 +392,6 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
-		04D4543B14D8F32000BCA9B2 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				0420EA0414C52BAB002ADDA7 /* iPad */,
-				78BA35B811A8AFA300C6881F /* iPhone */,
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -500,16 +463,6 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
-		78BA35B811A8AFA300C6881F /* iPhone */ = {
-			isa = PBXGroup;
-			children = (
-				0478D57514C7DF30006D20DA /* AboutViewController_iPhone.xib */,
-				0478D57014C7DE53006D20DA /* ChapterViewController_iPhone.xib */,
-				0478D56914C7DDB8006D20DA /* LessonViewController_iPhone.xib */,
-			);
-			name = iPhone;
-			sourceTree = "<group>";
-		};
 		F4F0828A1F3E2D5000991D10 /* Story Board */ = {
 			isa = PBXGroup;
 			children = (
@@ -577,11 +530,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0478D56B14C7DDB8006D20DA /* LessonViewController_iPhone.xib in Resources */,
-				0478D56D14C7DDFA006D20DA /* LessonViewController_iPad.xib in Resources */,
-				0478D57214C7DE53006D20DA /* ChapterViewController_iPhone.xib in Resources */,
-				0478D57714C7DF30006D20DA /* AboutViewController_iPhone.xib in Resources */,
-				0478D57914C7DF75006D20DA /* AboutViewController_iPad.xib in Resources */,
 				04446BFC14CBAE5E002A4EE3 /* learning_japanese_2_0_0.sqlite in Resources */,
 				045E8E8314D10E8B00925848 /* Web in Resources */,
 				044995B314DA2F190044D24F /* Audio in Resources */,

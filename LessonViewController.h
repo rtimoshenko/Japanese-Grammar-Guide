@@ -11,7 +11,7 @@
 #import "OptionsView.h"
 #import "ReadingView.h"
 #import "KanaView.h"
-#import "ChapterView.h"
+
 @class Lesson;
 
 @protocol LessonViewControllerDelegate
@@ -20,14 +20,13 @@
 @end
 
 
-@interface LessonViewController : AbstractViewController <OptionsViewDelegate, ReadingViewDelegate, ChapterViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, CAAnimationDelegate>
+@interface LessonViewController : AbstractViewController <OptionsViewDelegate, ReadingViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, CAAnimationDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet UIButton *showTableButton;
 @property (weak, nonatomic) IBOutlet ReadingView *readingView;
 @property (weak, nonatomic) IBOutlet KanaView *kanaView;
-@property (weak, nonatomic) IBOutlet ChapterView *chapterView;
 @property (weak, nonatomic) IBOutlet OptionsView *optionsView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
 @property (weak, nonatomic) IBOutlet UIToolbar *optionsToolbar;

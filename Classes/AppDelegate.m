@@ -10,7 +10,6 @@
 
 #import "AppDelegate.h"
 #import "LessonViewController.h"
-#import "ChapterViewController.h"
 #import "ChapterViewDataProvider.h"
 
 @implementation AppDelegate

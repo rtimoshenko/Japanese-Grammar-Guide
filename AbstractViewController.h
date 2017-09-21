@@ -10,9 +10,6 @@
 #import "AppDelegate.h"
 @class ChapterViewDataProvider;
 
-#define SAVED_CHAPTER_KEY @"SavedChapterKey"
-#define SAVED_LESSON_KEY @"SavedLessonKey"
-
 typedef enum 
 {
 	kHiragana,
