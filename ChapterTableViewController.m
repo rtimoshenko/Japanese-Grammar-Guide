@@ -345,6 +345,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (isEmpty) {
         self.tableView.hidden = YES;
         self.noResultsLabel.hidden = NO;
+        [self hideToolBar:NO];
     } else {
         self.tableView.hidden = NO;
         self.noResultsLabel.hidden = YES;
