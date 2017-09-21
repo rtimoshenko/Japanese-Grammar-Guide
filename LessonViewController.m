@@ -275,9 +275,7 @@
 
     [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"setNightMode(%@);", nightModeString]];
     
-    // TODO: Support night mode on new chapter view controller
-//    if([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
-//        [self.chapterView reloadAsNightTheme:nightMode];
+    [self.delegate didActivateNightMode:nightMode];
 }
 
 -(void)doChangeFontSize:(id)sender changeTo:(NSInteger)fontSize;

@@ -15,7 +15,8 @@
 @class Lesson;
 
 @protocol LessonViewControllerDelegate
--(void)didChangeToLessonAt:(NSIndexPath *)indexPath;
+- (void) didChangeToLessonAt:(NSIndexPath *)indexPath;
+- (void) didActivateNightMode:(BOOL)active;
 @end
 
 

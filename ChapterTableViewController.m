@@ -410,6 +410,10 @@ collapseSecondaryViewController:(UIViewController *)secondaryViewController
     }
 }
 
+- (void) didActivateNightMode:(BOOL)active {
+    // TODO:
+}
+
 #pragma mark - Navigation
 
 - (void)loadLesson:(Lesson *)lesson {
