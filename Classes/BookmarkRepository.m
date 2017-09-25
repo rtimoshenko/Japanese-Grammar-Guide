@@ -94,7 +94,7 @@
     [self reloadBookmarks];
 }
 
--(void)saveBookmarkForLesson:(Lesson *)lesson
+- (void)saveBookmarkForLesson:(Lesson *)lesson
 {
 	Bookmark *bookmark = [[Bookmark alloc] init];
 	bookmark.title = lesson.slug;

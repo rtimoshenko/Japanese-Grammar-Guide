@@ -37,7 +37,7 @@
 	return self;
 }
 
--(NSArray *)chapters
+-(NSArray<Chapter *> *)chapters
 {
 	if (!_chapters)
     {
@@ -175,6 +175,7 @@
             {
                 Chapter *chapter = [[Chapter alloc] initWithChapterNumber:c.chapterNumber];
                 chapter.lessons = lessons;
+                chapter.title = c.title;
                 [chapters addObject:chapter];
             }
         }

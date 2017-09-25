@@ -15,9 +15,9 @@
 
 @interface ReadingView : UIView
 
-@property (unsafe_unretained, nonatomic) id <ReadingViewDelegate> delegate;
-@property (unsafe_unretained, nonatomic) IBOutlet UILabel *label;
-@property (unsafe_unretained, nonatomic) IBOutlet UIButton *closeButton;
+@property (weak, nonatomic) id <ReadingViewDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UILabel *label;
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
 
 -(void)show;
 -(void)hide;

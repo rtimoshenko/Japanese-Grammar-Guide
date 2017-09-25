@@ -11,27 +11,35 @@
 #import "OptionsView.h"
 #import "ReadingView.h"
 #import "KanaView.h"
-#import "ChapterView.h"
 
 @class Lesson;
 
-@interface LessonViewController : AbstractViewController <OptionsViewDelegate, ReadingViewDelegate, ChapterViewDelegate, UIWebViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, CAAnimationDelegate>
+@protocol LessonViewControllerDelegate
+- (void)didChangeToLessonAt:(NSIndexPath *)indexPath;
+- (void)didBookmarkLesson:(Lesson *)lesson;
+- (void)didActivateNightMode:(BOOL)active;
+
+@end
 
 
-@property (unsafe_unretained, nonatomic) IBOutlet UIWebView *webView;
-@property (unsafe_unretained, nonatomic) IBOutlet UIButton *showTableButton;
-@property (unsafe_unretained, nonatomic) IBOutlet ReadingView *readingView;
-@property (unsafe_unretained, nonatomic) IBOutlet KanaView *kanaView;
-@property (unsafe_unretained, nonatomic) IBOutlet ChapterView *chapterView;
-@property (unsafe_unretained, nonatomic) IBOutlet OptionsView *optionsView;
-@property (unsafe_unretained, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
-@property (unsafe_unretained, nonatomic) IBOutlet UIToolbar *optionsToolbar;
-@property (unsafe_unretained, nonatomic) IBOutlet UIToolbar *moreOptionsToolbar;
-@property (unsafe_unretained, nonatomic) IBOutlet UIToolbar *filterToolbar;
-@property (unsafe_unretained, nonatomic) IBOutlet UISegmentedControl *filterControl;
+@interface LessonViewController : AbstractViewController <OptionsViewDelegate, ReadingViewDelegate, UIWebViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, CAAnimationDelegate>
 
--(IBAction)didSelectFilter:(id)sender;
--(IBAction)didPressShowTableButton:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (weak, nonatomic) IBOutlet UIButton *showTableButton;
+@property (weak, nonatomic) IBOutlet ReadingView *readingView;
+@property (weak, nonatomic) IBOutlet KanaView *kanaView;
+@property (weak, nonatomic) IBOutlet OptionsView *optionsView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingView;
+@property (weak, nonatomic) IBOutlet UIToolbar *optionsToolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *moreOptionsToolbar;
+@property (weak, nonatomic) IBOutlet UIToolbar *filterToolbar;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *filterControl;
+@property (nonatomic, weak) id<LessonViewControllerDelegate> delegate;
+
+- (void)shouldLoadLesson:(id)sender lesson:(Lesson *)lesson;
+
+- (void)refreshBookmark;
 
 @property (strong, nonatomic) Lesson *lesson;
 @property (strong, nonatomic) Lesson *exercise;

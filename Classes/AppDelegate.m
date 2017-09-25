@@ -10,50 +10,15 @@
 
 #import "AppDelegate.h"
 #import "LessonViewController.h"
-#import "ChapterViewController.h"
-
+#import "ChapterViewDataProvider.h"
 
 @implementation AppDelegate
-
-@synthesize lessonRepository = _lessonRepository;
-@synthesize bookmarkRepository = _bookmarkRepository;
-@synthesize window = _window;
-@synthesize navigationController = _navigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.lessonRepository = [[LessonRepository alloc] init];
     self.bookmarkRepository = [[BookmarkRepository alloc] init];
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    UINavigationController *navigationController;
-    
-    // Load the device appropriate nib
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
-    {
-        NSString *defaultNib = @"ChapterViewController_iPhone";
-        ChapterViewController *chapterViewController = [[ChapterViewController alloc] initWithNibName:defaultNib bundle:nil];
-        navigationController = [[UINavigationController alloc] initWithRootViewController:chapterViewController];
-    }
-    else
-    {
-        NSString *defaultNib = @"LessonViewController_iPad";
-        LessonViewController *lessonViewController = [[LessonViewController alloc] initWithNibName:defaultNib bundle:nil];
-        navigationController = [[UINavigationController alloc] initWithRootViewController:lessonViewController];
-    }
-    
-    [navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-    [navigationController.navigationBar setTintColor:[UIColor colorWithRed:36.0/255.0 green:36.0/255.0 blue:36.0/255.0 alpha:1]]; 
-
-
-    if ([UINavigationBar respondsToSelector: @selector(appearance)])
-        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed: @"bg-navbar.png"] forBarMetrics:UIBarMetricsDefault];
-        
-    
-    self.navigationController = navigationController;
-    self.window.rootViewController = self.navigationController;
-
-    [self.window makeKeyAndVisible];
+    self.dataProvider = [[ChapterViewDataProvider alloc] initWithChapters:self.lessonRepository.chapters];
     return YES;
 }
 
