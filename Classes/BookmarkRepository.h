@@ -18,8 +18,8 @@
 
 -(void)saveBookmark:(Bookmark *)bookmark;
 -(void)saveBookmarkForLesson:(Lesson *)lesson;
--(Bookmark *)bookmarkForLessonNumber:(int)lessonNumber;
--(void)deleteBookmark:(int)bookmarkNumber;
+-(Bookmark *)bookmarkForLessonNumber:(NSInteger)lessonNumber;
+-(void)deleteBookmark:(NSInteger)bookmarkNumber;
 -(void)saveSortOrder;
 
 @end

@@ -94,7 +94,7 @@
     [self reloadBookmarks];
 }
 
--(void)saveBookmarkForLesson:(Lesson *)lesson
+- (void)saveBookmarkForLesson:(Lesson *)lesson
 {
 	Bookmark *bookmark = [[Bookmark alloc] init];
 	bookmark.title = lesson.slug;
@@ -105,7 +105,7 @@
 	[self saveBookmark:bookmark];
 }
 
--(Bookmark *)bookmarkForLessonNumber:(int)lessonNumber
+-(Bookmark *)bookmarkForLessonNumber:(NSInteger)lessonNumber
 {
 	Bookmark *bookmarkResult = nil;
 
@@ -132,8 +132,8 @@
 	[db executeUpdate:@"INSERT INTO Bookmarks (Title, Subtitle, LessonId, SortOrder) VALUES (?, ?, ?, ?)",
 	 [NSString stringWithFormat:@"%@", bookmark.title],
 	 [NSString stringWithFormat:@"%@", bookmark.subtitle],
-	 [NSNumber numberWithInt:bookmark.lessonNumber],
-	 [NSNumber numberWithInt:[self.bookmarks count]]];
+	 [NSNumber numberWithInteger:bookmark.lessonNumber],
+	 [NSNumber numberWithInteger:[self.bookmarks count]]];
 	[db commit];
 	
 	[db close];
@@ -148,21 +148,21 @@
 	[db executeUpdate:@"UPDATE Bookmarks SET Title=?, Subtitle=?, SortOrder=? WHERE Id = ?",
 		  [NSString stringWithFormat:@"%@", bookmark.title],
 		  [NSString stringWithFormat:@"%@", bookmark.subtitle],
-		  [NSNumber numberWithInt:bookmark.sortOrder],
-		  [NSNumber numberWithInt:bookmark.bookmarkNumber]];
+		  [NSNumber numberWithInteger:bookmark.sortOrder],
+		  [NSNumber numberWithInteger:bookmark.bookmarkNumber]];
 	[db commit];
 	
 	[db close];
 }
 
--(void)deleteBookmark:(int)bookmarkNumber
+-(void)deleteBookmark:(NSInteger)bookmarkNumber
 {
 	FMDatabase* db = [FMDatabase databaseWithPath:self.dbPath];
 	[db open];
 	
 	[db beginTransaction];
 	[db executeUpdate:@"DELETE FROM Bookmarks WHERE Id = ?",
-			 [NSNumber numberWithInt:bookmarkNumber]];
+			 [NSNumber numberWithInteger:bookmarkNumber]];
 	[db commit];
 	
 	[db close];
@@ -174,7 +174,7 @@
 {
     if (self.bookmarks.count > 0)
     {
-        int sortOrder = 0;
+        NSInteger sortOrder = 0;
         
         @autoreleasepool {
             for (Bookmark *bookmark in self.bookmarks)

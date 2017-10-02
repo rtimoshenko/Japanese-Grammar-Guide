@@ -22,25 +22,25 @@
 -(void)didShowOptionsView:(id)sender didShow:(BOOL)didShow;
 -(void)didHideOptionsView:(id)sender didHide:(BOOL)didHide;
 -(void)shouldUseNightMode:(id)sender useNightMode:(BOOL)nightMode;
--(void)doChangeFontSize:(id)sender changeTo:(int)fontSize;
+-(void)doChangeFontSize:(id)sender changeTo:(NSInteger)fontSize;
 -(void)doSaveBookmark:(id)sender;
 -(void)doLoadNext:(id)sender;
 -(void)doLoadPrevious:(id)sender;
 @end
 
-@interface OptionsView : UIView
+@interface OptionsView : UIView <CAAnimationDelegate>
 
 @property (nonatomic, strong) NSTimer *timer;
-@property (unsafe_unretained, nonatomic) IBOutlet UIView *extraOptionsView;
-@property (unsafe_unretained, nonatomic) IBOutlet UIBarButtonItem *optionsButton;
-@property (unsafe_unretained, nonatomic) IBOutlet UIBarButtonItem *previousButton;
-@property (unsafe_unretained, nonatomic) IBOutlet UIBarButtonItem *nextButton;
-@property (unsafe_unretained, nonatomic) IBOutlet UIBarButtonItem *bookmarkButton;
+@property (weak, nonatomic) IBOutlet UIView *extraOptionsView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *optionsButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *previousButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *nextButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *bookmarkButton;
 
-@property (unsafe_unretained, nonatomic) IBOutlet UIBarButtonItem *nightModeButton;
-@property (unsafe_unretained, nonatomic) IBOutlet UISlider *brightnessSlider;
-@property (unsafe_unretained, nonatomic) IBOutlet UIBarButtonItem *fontIncreaseButton;
-@property (unsafe_unretained, nonatomic) IBOutlet UIBarButtonItem *fontDecreaseButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *nightModeButton;
+@property (weak, nonatomic) IBOutlet UISlider *brightnessSlider;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *fontIncreaseButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *fontDecreaseButton;
 
 -(IBAction)optionsSelected:(id)sender;
 -(IBAction)previousSelected:(id)sender;
@@ -51,13 +51,13 @@
 -(IBAction)fontIncreaseSelected:(id)sender;
 -(IBAction)fontDecreaseSelected:(id)sender;
 
-@property (unsafe_unretained, nonatomic) id <OptionsViewDelegate> delegate;
+@property (weak, nonatomic) id <OptionsViewDelegate> delegate;
 @property (nonatomic) BOOL hasNext;
 @property (nonatomic) BOOL hasPrevious;
 @property (nonatomic) BOOL hasBookmark;
 @property (nonatomic) BOOL isNightMode;
 @property (nonatomic) BOOL shouldIgnoreHideMessage;
-@property (nonatomic) int fontSize;
+@property (nonatomic) NSInteger fontSize;
 @property (nonatomic) double brightness;
 
 -(void)show;
@@ -65,6 +65,6 @@
 -(void)hideWithDelegate:(BOOL)withDelegate;
 -(void)showWithDelegate:(BOOL)withDelegate;
 -(void)shouldUseNightMode:(BOOL)nightMode;
--(void)doChangeFontSize:(int)fontSize;
+-(void)doChangeFontSize:(NSInteger)fontSize;
 
 @end

@@ -15,7 +15,6 @@
 
 @synthesize moreAppsButton = _moreAppsButton;
 
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -28,7 +27,13 @@
     return self;
 }
 
--(IBAction)moreAppsButtonPressed:(id)sender
+- (IBAction)donePressed:(id)sender {
+    
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
+}
+
+- (IBAction)moreAppsButtonPressed:(id)sender
 {
 	//NSString *referralLink = @"http://itunes.apple.com/artist/ronald-timoshenko/id377785103";
     

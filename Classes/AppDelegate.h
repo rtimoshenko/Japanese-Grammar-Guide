@@ -10,14 +10,16 @@
 #import <UIKit/UIKit.h>
 #import "LessonRepository.h"
 #import "BookmarkRepository.h"
+@class ChapterViewDataProvider;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) UINavigationController *navigationController;
 
 @property (strong, nonatomic) LessonRepository *lessonRepository;
 @property (strong, nonatomic) BookmarkRepository *bookmarkRepository;
+@property (nonatomic, strong) ChapterViewDataProvider *dataProvider;
+
 
 
 @end
